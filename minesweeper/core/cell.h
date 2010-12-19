@@ -58,9 +58,11 @@ namespace minesweeper {
 			private:
 				const Field & field;
 				const int x, y;
+				const AdjIter endIter;
+				
+			protected:
 				mutable unsigned int state;
 				mutable int number, rest;
-				const AdjIter endIter;
 				
 			public:
 				enum State {
@@ -71,9 +73,10 @@ namespace minesweeper {
 				};
 				
 				explicit Cell(const Field & _field, int _x, int _y) :
-					field(_field), x(_x), y(_y), state(COVERED),
-					number(0), rest(0),
-					endIter(*this) {}
+					field(_field), x(_x), y(_y),
+					endIter(*this),
+					state(COVERED),
+					number(0), rest(0) {}
 				
 				virtual ~Cell() {}
 				
@@ -110,6 +113,10 @@ namespace minesweeper {
 					return state & FLAG;
 				}
 				
+				bool hasMark() const {
+					return state & MARK;
+				}
+				
 				bool isUnknown() const {
 					return (state & (COVERED | FLAG)) == COVERED;
 				}
@@ -123,10 +130,12 @@ namespace minesweeper {
 				// Setters
 				virtual bool uncover() const;
 				virtual bool cover() const;
-				virtual bool setFlag() const;
-				virtual bool unsetFlag() const;
 				virtual bool setMine() const;
 				virtual bool unsetMine() const;
+				virtual bool setFlag() const;
+				virtual bool unsetFlag() const;
+				virtual bool setMark() const;
+				virtual bool unsetMark() const;
 				virtual bool dig() const;
 				virtual bool digAround() const;
 				

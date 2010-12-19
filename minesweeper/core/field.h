@@ -2,6 +2,7 @@
 #define _MINESWEEPER_CORE_FIELD_H_
 
 #include "common.h"
+#include <iostream>
 
 namespace minesweeper {
 	namespace core {
@@ -62,15 +63,18 @@ namespace minesweeper {
 				const FieldIter endIter;
 					// end() returns this value to test termination of iterators
 				
+			protected:
 				void constructCells();
 				void destructCells();
 				
 			public:
-				explicit Field::Field(int _width, int _height) :
-						width(_width), height(_height),
+				explicit Field::Field(int _width, int _height, bool _init = true) :
+						width(_width), height(_height), cells(0),
 						number(0), rest(0), pending(_width * _height),
 						endIter(*this) {
-					constructCells();
+					if (_init) {
+						constructCells();
+					}
 				}
 				
 				virtual ~Field() {
@@ -113,6 +117,7 @@ namespace minesweeper {
 				
 				// Others
 				void print() const;
+				void print(std::ostream & out) const;
 				
 		};
 	}

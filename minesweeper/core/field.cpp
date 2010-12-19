@@ -80,46 +80,49 @@ namespace minesweeper {
 		}
 		
 		void Field::print() const {
+			print(std::cout);
+		}
+		
+		void Field::print(std::ostream & out) const {
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
 					const Cell & cell = getCell(x, y);
 					
 					if (cell.isCovered()) {
 						if (cell.hasFlag()) {
-							std::cout << "F ";
+							out << "F ";
 						} else {
-							std::cout << "- ";
+							out << "- ";
 						}
 					} else if (cell.hasMine()) {
-						std::cout << "* ";
+						out << "* ";
 					} else {
 						if (cell.getNumber() == 0) {
-							std::cout << ". ";
+							out << ". ";
 						} else {
-							std::cout << cell.getNumber() << " ";
+							out << cell.getNumber() << " ";
 						}
 					}
 				}
 				
-				std::cout << "  ";
+				out << "  ";
 				
 				for (int x = 0; x < width; x++) {
 					const Cell & cell = getCell(x, y);
 					
 					if (cell.hasMine()) {
-						std::cout << "* ";
+						out << "* ";
 					} else {
 						if (cell.getNumber() == 0) {
-							std::cout << ". ";
+							out << ". ";
 						} else {
-							std::cout << cell.getNumber() << " ";
+							out << cell.getNumber() << " ";
 						}
 					}
 				}
 				
-				std::cout << std::endl;
+				out << std::endl;
 			}
-			
 		}
 		
 		/**********************************************************************

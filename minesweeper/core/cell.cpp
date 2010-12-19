@@ -119,6 +119,24 @@ namespace minesweeper {
 			return true;
 		}
 		
+		bool Cell::setMark() const {
+			if (hasMark()) {
+				return false;
+			}
+			
+			state |= MARK;
+			return true;
+		}
+		
+		bool Cell::unsetMark() const {
+			if (!hasMark()) {
+				return false;
+			}
+			
+			state &= ~MARK;
+			return true;
+		}
+		
 		bool Cell::dig() const {
 			bool ret = false;
 			
