@@ -68,7 +68,7 @@ namespace minesweeper {
 				void destructCells();
 				
 			public:
-				explicit Field::Field(int _width, int _height, bool _init = true) :
+				explicit Field(int _width, int _height, bool _init = true) :
 						width(_width), height(_height), cells(0),
 						number(0), rest(0), pending(_width * _height),
 						endIter(*this) {
