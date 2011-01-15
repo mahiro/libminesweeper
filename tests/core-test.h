@@ -1,5 +1,5 @@
-#ifndef _CORE_TEST_H_INCLUDED_
-#define _CORE_TEST_H_INCLUDED_
+#ifndef _TESTS_CORE_TEST_H_
+#define _TESTS_CORE_TEST_H_
 
 void testCells();
 void testDig();

@@ -1,5 +1,6 @@
 #include "../minesweeper.h"
 #include "test.h"
+#include "core-test.h"
 
 void testCells() {
 	minesweeper::core::Field field(4, 4);

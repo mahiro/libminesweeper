@@ -54,15 +54,22 @@ namespace minesweeper {
 		
 		class Cell {
 			friend class AdjIter;
+			friend class Field;
 			
 			private:
-				const Field & field;
-				const int x, y;
 				const AdjIter endIter;
 				
 			protected:
+				const Field & field;
+				const int x, y;
 				mutable unsigned int state;
 				mutable int number, rest;
+				
+			private:
+				virtual void clear() const {
+					state = COVERED;
+					number = rest = 0;
+				}
 				
 			public:
 				enum State {
@@ -73,8 +80,8 @@ namespace minesweeper {
 				};
 				
 				explicit Cell(const Field & _field, int _x, int _y) :
-					field(_field), x(_x), y(_y),
 					endIter(*this),
+					field(_field), x(_x), y(_y),
 					state(COVERED),
 					number(0), rest(0) {}
 				
@@ -138,6 +145,11 @@ namespace minesweeper {
 				virtual bool unsetMark() const;
 				virtual bool dig() const;
 				virtual bool digAround() const;
+				
+				virtual void reset() const {
+					cover();
+					unsetFlag();
+				}
 				
 				// Iterators
 				AdjIter begin(int dist = 1) const;

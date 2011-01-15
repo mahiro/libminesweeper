@@ -52,8 +52,8 @@ namespace minesweeper {
 		};
 		
 		class Field {
-			friend class Cell;
 			friend class FieldIter;
+			friend class Cell;
 			
 			private:
 				const int width, height;
@@ -82,6 +82,8 @@ namespace minesweeper {
 				}
 				
 				virtual const Cell * createCell(int x, int y) const;
+				virtual void clearCells() const;
+				virtual void resetCells() const;
 				
 				// Getters
 				const Cell & getCell(int x, int y) const {

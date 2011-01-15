@@ -1,11 +1,10 @@
 #include <iostream>
 #include "test.h"
 #include "core-test.h"
+#include "solver-test.h"
 
 void printLine() {
-	int i;
-	
-	for (i = 0; i < 78; i++) {
+	for (int i = 0; i < 78; i++) {
 		std::cout << "=";
 	}
 	
@@ -19,7 +18,6 @@ void printTestStarts() {
 }
 
 void printTestResults() {
-	int i;
 	int s = countSuccess();
 	int f = countFailure();
 	
@@ -41,9 +39,17 @@ void printTestResults() {
 
 int main() {
 	printTestStarts();
+	
 	testCells();
 	testDig();
 	testDigWithFlags();
+	
+	testSearchBySinglePoint_1();
+	testSearchBySinglePoint_2();
+	testSearchByDoublePoints_1();
+	testSearchByDoublePoints_2();
+	testSearchByDoublePoints_3();
+	
 	printTestResults();
 	return 0;
 }

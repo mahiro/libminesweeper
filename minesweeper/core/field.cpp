@@ -10,6 +10,10 @@ namespace minesweeper {
 		/**********************************************************************
 		 * Field
 		 **********************************************************************/
+		const Cell * Field::createCell(int x, int y) const {
+			return new Cell(*this, x, y);
+		}
+		
 		void Field::constructCells() {
 			cells = new const Cell **[height];
 			
@@ -34,8 +38,19 @@ namespace minesweeper {
 			delete cells;
 		}
 		
-		const Cell * Field::createCell(int x, int y) const {
-			return new Cell(*this, x, y);
+		void Field::clearCells() const {
+			for (FieldIter it = begin(); it != end(); it++) {
+				(*it)->clear();
+			}
+			
+			number = rest = 0;
+			pending = width * height;
+		}
+		
+		void Field::resetCells() const {
+			for (FieldIter it = begin(); it != end(); it++) {
+				(*it)->reset();
+			}
 		}
 		
 		void Field::setupRandomMines(int numMines, const Cell & startCell, int dist) const {

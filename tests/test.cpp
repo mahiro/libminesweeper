@@ -61,24 +61,26 @@ void setFieldMatrix(const minesweeper::core::Field & field, ...) {
 	va_end(ap);
 }
 
-int _assertEquals(const char *filename, int lineno, int expected, int actual) {
+bool _assertEquals(const char *filename, int lineno, int expected, int actual) {
 	if (expected == actual) {
 		success++;
+		return true;
 	} else {
 		std::cout << std::endl
 			<< "FAILED: expected " << expected << " but was " << actual
 			<< " in assertEquals at " << filename << ":" << lineno << std::endl;
 		
 		failure++;
+		return false;
 	}
 }
 
-int _assertFieldMatrix(const char *filename, int lineno,
+bool _assertFieldMatrix(const char *filename, int lineno,
 		const minesweeper::core::Field & field,
 		int (*func)(const minesweeper::core::Cell &), ...) {
 	va_list ap;
 	int x, y;
-	int ok = 1;
+	bool ok = true;
 	
 	va_start(ap, func);
 	
@@ -94,7 +96,7 @@ int _assertFieldMatrix(const char *filename, int lineno,
 					<< " for cell (" << x << ", " << y << ") in assertFieldMatrix"
 					<< " at " << filename << ":" << lineno << std::endl;
 				
-				ok = 0;
+				ok = false;
 				break;
 			}
 		}
