@@ -21,7 +21,7 @@ namespace minesweeper {
 				void removeUnknownCell(const SolverCell & cell) const;
 				
 			protected:
-				void clearUnknowns() const;
+				virtual void clearUnknowns() const;
 				virtual void handleResult(const Searcher & searcher) const;
 				
 			public:

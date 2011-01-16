@@ -9,11 +9,11 @@ namespace minesweeper {
 			if (depth == 0) {
 				return false;
 			} else if (depth == 1) {
-				return searchBySinglePoint();
+				return searchSingle();
 			} else if (depth == 2) {
-				return searchByDoublePoints();
+				return searchDouble();
 //			} else {
-//				return searchByMultiplePoints(depth);
+//				return searchMultiple(depth);
 			}
 			
 			return false;
@@ -27,13 +27,13 @@ namespace minesweeper {
 //			}
 //		}
 		
-		bool Searcher::searchBySinglePoint() const {
+		bool Searcher::searchSingle() const {
 			const CellSet & frontierCells = field.getFrontierCells();
 			
 			for (CellSetIter it = frontierCells.begin(); it != frontierCells.end(); it++) {
 				SuspectState state(*this, 0);
 				
-				if (state.suspectCell(**it)) {
+				if (state.suspectSingle(**it)) {
 					return true;
 				}
 			}
@@ -41,7 +41,7 @@ namespace minesweeper {
 			return false;
 		}
 		
-		bool Searcher::searchByDoublePoints() const {
+		bool Searcher::searchDouble() const {
 			const CellSet & frontierCells = field.getFrontierCells();
 			
 			for (CellSetIter it = frontierCells.begin(); it != frontierCells.end(); it++) {
@@ -51,14 +51,14 @@ namespace minesweeper {
 					const Cell & otherCell = **adj;
 					
 					if (dynamic_cast<const SolverCell &>(otherCell).isFrontier()
-							&& &targetCell < &otherCell /*eliminate redundancy of the flipped cases*/) {
+							&& &targetCell < &otherCell /*eliminate flipped cases*/) {
 						int targetID = targetCell.getX() + targetCell.getY() * field.getWidth();
 						int otherID = otherCell.getX() + otherCell.getY() * field.getWidth();
 						
 						if (targetID < otherID) {
 							SuspectState state(*this, 0);
 							
-							if (state.suspectCells(targetCell, otherCell)) {
+							if (state.suspectDouble(targetCell, otherCell)) {
 								return true;
 							}
 						}
@@ -69,7 +69,7 @@ namespace minesweeper {
 			return false;
 		}
 		
-//		bool Searcher::searchByMultiplePoints(int depth) const {
+//		bool Searcher::searchMultiple(int depth) const {
 //			const CellSet & frontierCells = field.getFrontierCells();
 //			BipartiteCells marking(CellSet(), CellSet());
 //			
@@ -87,16 +87,16 @@ namespace minesweeper {
 //			return false;
 //		}
 		
-		bool Searcher::searchBySinglePoint(const Cell & targetCell) const {
+		bool Searcher::searchSingle(const Cell & targetCell) const {
 			if (!dynamic_cast<const SolverCell &>(targetCell).isFrontier()) {
 				return false;
 			}
 			
 			SuspectState state(*this, 0);
-			return state.suspectCell(targetCell);
+			return state.suspectSingle(targetCell);
 		}
 		
-		bool Searcher::searchByDoublePoints(const Cell & targetCell) const {
+		bool Searcher::searchDouble(const Cell & targetCell) const {
 			if (!dynamic_cast<const SolverCell &>(targetCell).isFrontier()) {
 				return false;
 			}
@@ -107,7 +107,7 @@ namespace minesweeper {
 				if (dynamic_cast<const SolverCell &>(otherCell).isFrontier()) {
 					SuspectState state(*this, 0);
 					
-					if (state.suspectCells(targetCell, otherCell)) {
+					if (state.suspectDouble(targetCell, otherCell)) {
 						return true;
 					}
 				}
@@ -116,7 +116,7 @@ namespace minesweeper {
 			return false;
 		}
 		
-//		bool Searcher::searchByMultiplePoints(const Cell & targetCell, int depth) const {
+//		bool Searcher::searchMultiple(const Cell & targetCell, int depth) const {
 //			if (!dynamic_cast<const SolverCell &>(targetCell).isFrontier()) {
 //				return false;
 //			}
@@ -144,7 +144,7 @@ namespace minesweeper {
 //			
 //			if (depthLeft <= 0) {
 //				SuspectState state(*this, 0);
-//				ret = state.suspectCells(input.getRedCells(), input.getBlueCells());
+//				ret = state.suspectMultiple(input.getRedCells(), input.getBlueCells());
 //			} else {
 //				bool nextForRed = !forRed;
 //				ret = traverseForwardInternal(currentCells, input, marking, nextForRed, depthLeft);
@@ -211,7 +211,7 @@ namespace minesweeper {
 //		bool Searcher::traverseBackwardFast(int depthLeft) const {
 //			if (depthLeft == 0) {
 //				SuspectState state(*this, 1);
-//				return state.suspectCells(CellSet(), CellSet(), *this);
+//				return state.suspectBackward(CellSet(), CellSet(), *this);
 //			} else {
 //				if (getRest() > 4 * depthLeft && getPending() > 4 * depthLeft) {
 //					return false;
@@ -224,7 +224,7 @@ namespace minesweeper {
 //					const CellSet & redCells = *cit;
 //					SuspectState state(*this, 1);
 //					
-//					if (state.suspectCells(redCells, CellSet(), this)) {
+//					if (state.suspectBackward(redCells, CellSet(), this)) {
 //						return true;
 //					}
 //				}
@@ -236,7 +236,7 @@ namespace minesweeper {
 //		bool Searcher::traverseBackward(int depthLeft) const {
 //			if (depthLeft == 0) {
 //				SuspectState state(*this, 1);
-//				return state.suspectCells(CellSet(), CellSet(), *this);
+//				return state.suspectBackward(CellSet(), CellSet(), *this);
 //			} else {
 //				const CellSet & frontierCells = field.getFrontierCells();
 //				CombinationGenerator cg(frontierCells, 1, depthLeft);
@@ -247,7 +247,7 @@ namespace minesweeper {
 //					if (redCells.size() == depthLeft) {
 //						SuspectState state(*this, 1);
 //						
-//						if (state.suspectCells(redCells, CellSet(), *this)) {
+//						if (state.suspectBackward(redCells, CellSet(), *this)) {
 //							return true;
 //						}
 //					} else {
@@ -271,7 +271,7 @@ namespace minesweeper {
 //						for (CombinationIter cit2 = cg2.begin(); cit2 != cg2.end(); cit2++) {
 //							SuspectState state(*this, 1);
 //							
-//							if (state.suspectCells(redCells, blueCells, *this)) {
+//							if (state.suspectBackward(redCells, blueCells, *this)) {
 //								ret = true;
 //								break;
 //							}

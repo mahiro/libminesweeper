@@ -16,8 +16,11 @@ namespace minesweeper {
 				
 				void incrSuspectAround(const Cell & cell) const;
 				void decrSuspectAround(const Cell & cell) const;
-				void createResult(const Cell & redCell, const Cell & blueCell, bool forPositives) const;
-				void collectOutput(CellSet & outputCells, const CellSet & inputCells, const CellSet & otherInputCells, bool forPositives) const;
+				void setResultSingle(const Cell & inputCell, bool forRed) const;
+				void setResultDouble(const Cell & redCell, const Cell & blueCell, bool forRed) const;
+				
+				void collectOutput(CellSet & outputCells, const CellSet & inputCells,
+						const CellSet & otherInputCells, bool forPositives) const;
 				
 			public:
 				explicit SuspectState(const Searcher & _searcher, int _offset) :
@@ -26,9 +29,9 @@ namespace minesweeper {
 				
 				virtual ~SuspectState() {}
 				
-				bool suspectCell(const Cell & targetCell) const;
-				bool suspectCells(const Cell & redCell, const Cell & blueCell) const;
-//				bool suspectCells(const CellSet & redCells, const CellSet & blueCells) const;
+				bool suspectSingle(const Cell & targetCell) const;
+				bool suspectDouble(const Cell & redCell, const Cell & blueCell) const;
+//				bool suspectMultiple(const CellSet & redCells, const CellSet & blueCells) const;
 		};
 	}
 }

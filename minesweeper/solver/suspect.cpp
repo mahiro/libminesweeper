@@ -5,44 +5,26 @@
 
 namespace minesweeper {
 	namespace solver {
-		bool SuspectState::suspectCell(const Cell & targetCell) const {
+		bool SuspectState::suspectSingle(const Cell & targetCell) const {
 			if (targetCell.getRest() == 0) {
-				searcher.setResultFound();
-				searcher.getInputBlueCells().insert(&targetCell);
-				
-				CellSet & blueCells = searcher.getOutputBlueCells();
-				
-				for (AdjIter adj = targetCell.begin(); adj != targetCell.end(); adj++) {
-					if ((*adj)->isUnknown()) {
-						blueCells.insert(*adj);
-					}
-				}
-			} else if (targetCell.getRest() == dynamic_cast<const SolverCell *>(&targetCell)->countUnknowns()) {
-				searcher.setResultFound();
-				searcher.getInputRedCells().insert(&targetCell);
-				
-				CellSet & redCells = searcher.getOutputRedCells();
-				
-				for (AdjIter adj = targetCell.begin(); adj != targetCell.end(); adj++) {
-					if ((*adj)->isUnknown()) {
-						redCells.insert(*adj);
-					}
-				}
+				setResultSingle(targetCell, false);
+			} else if (targetCell.getRest() == dynamic_cast<const SolverCell &>(targetCell).countUnknowns()) {
+				setResultSingle(targetCell, true);
 			}
 			
 			return searcher.hasResult();
 		}
 		
-		bool SuspectState::suspectCells(const Cell & redCell, const Cell & blueCell) const {
+		bool SuspectState::suspectDouble(const Cell & redCell, const Cell & blueCell) const {
 			incrSuspectAround(redCell);
 			decrSuspectAround(blueCell);
 			
 			int diff = redCell.getRest() - blueCell.getRest();
 			
 			if (diff == positives) {
-				createResult(redCell, blueCell, true);
+				setResultDouble(redCell, blueCell, true);
 			} else if (diff == negatives) {
-				createResult(blueCell, redCell, false);
+				setResultDouble(blueCell, redCell, false);
 			}
 			
 			decrSuspectAround(redCell);
@@ -51,7 +33,7 @@ namespace minesweeper {
 			return searcher.hasResult();
 		}
 		
-//		void SuspectState::suspectCells(const CellSet & redCells, const CellSet & blueCells) const {
+//		void SuspectState::suspectMultiple(const CellSet & redCells, const CellSet & blueCells) const {
 //			
 //		}
 		
@@ -83,17 +65,31 @@ namespace minesweeper {
 			}
 		}
 		
-		void SuspectState::createResult(const Cell & redCell, const Cell & blueCell, bool forPositives) const {
+		void SuspectState::setResultSingle(const Cell & inputCell, bool forRed) const {
+			searcher.setResultFound();
+			searcher.getInput().getRedOrBlueCells(forRed).insert(&inputCell);
+			
+			CellSet & outputCells = searcher.getOutput().getRedOrBlueCells(forRed);
+			
+			for (AdjIter adj = inputCell.begin(); adj != inputCell.end(); adj++) {
+				if ((*adj)->isUnknown()) {
+					outputCells.insert(*adj);
+				}
+			}
+		}
+		
+		void SuspectState::setResultDouble(const Cell & redCell, const Cell & blueCell, bool forRed) const {
 			searcher.setResultFound();
 			
 			CellSet & redCells = searcher.getInputRedCells();
-			CellSet & blueCells = searcher.getInputBlueCells();
-			
 			redCells.insert(&redCell);
+			
+			CellSet & blueCells = searcher.getInputBlueCells();
 			blueCells.insert(&blueCell);
 			
-			collectOutput(searcher.getOutputRedCells(), redCells, blueCells, forPositives);
-			collectOutput(searcher.getOutputBlueCells(), blueCells, redCells, !forPositives);
+			const BipartiteCells & output = searcher.getOutput();
+			collectOutput(output.getRedCells(), redCells, blueCells, forRed);
+			collectOutput(output.getBlueCells(), blueCells, redCells, !forRed);
 		}
 		
 		void SuspectState::collectOutput(CellSet & outputCells,

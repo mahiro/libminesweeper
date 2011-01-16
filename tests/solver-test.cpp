@@ -29,7 +29,7 @@ void testSearchBySinglePoint_1() {
 		(M), (-C), -C,
 		-C ,  -C , (M));
 	
-	assertEquals(true, searcher.searchBySinglePoint(field.getCell(1, 1)));
+	assertEquals(true, searcher.searchSingle(field.getCell(1, 1)));
 	assertEquals(true, searcher.hasResult());
 	
 	if (!searcher.hasResult()) return;
@@ -50,7 +50,7 @@ void testSearchBySinglePoint_2() {
 		M|F, (-C), (0),
 		(0),  (0), M|F);
 	
-	assertEquals(true, searcher.searchBySinglePoint(field.getCell(1, 1)));
+	assertEquals(true, searcher.searchSingle(field.getCell(1, 1)));
 	assertEquals(true, searcher.hasResult());
 	
 	if (!searcher.hasResult()) return;
@@ -71,7 +71,7 @@ void testSearchByDoublePoints_1() {
 		M|F, (-C), (-C), M|F,
 		-C ,  -C ,  -C , -C );
 	
-	assertEquals(true, searcher.searchByDoublePoints(field.getCell(1, 1)));
+	assertEquals(true, searcher.searchDouble(field.getCell(1, 1)));
 	assertEquals(true, searcher.hasResult());
 	
 	if (!searcher.hasResult()) return;
@@ -92,7 +92,7 @@ void testSearchByDoublePoints_2() {
 		(0), (-C), (-C), (M),
 		(0),   0 ,   0 , (M));
 	
-	assertEquals(true, searcher.searchByDoublePoints(field.getCell(1, 1)));
+	assertEquals(true, searcher.searchDouble(field.getCell(1, 1)));
 	assertEquals(true, searcher.hasResult());
 	
 	if (!searcher.hasResult()) return;
@@ -113,7 +113,7 @@ void testSearchByDoublePoints_3() {
 		-C , (-C), M, (-C), (0),
 		M|F,  -C , 0,  (0), (0));
 	
-	assertEquals(true, searcher.searchByDoublePoints(field.getCell(1, 1)));
+	assertEquals(true, searcher.searchDouble(field.getCell(1, 1)));
 	assertEquals(true, searcher.hasResult());
 	
 	if (!searcher.hasResult()) return;

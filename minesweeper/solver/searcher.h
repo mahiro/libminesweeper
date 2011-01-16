@@ -37,13 +37,13 @@ namespace minesweeper {
 				
 				bool searchForward(int depth) const;
 //				bool searchBackward(int depth, bool fast = true) const;
-				bool searchBySinglePoint() const;
-				bool searchByDoublePoints() const;
-//				bool searchByMultiplePoints(int depth) const;
-				bool searchBySinglePoint(const Cell & targetCell) const;
-				bool searchByDoublePoints(const Cell & targetCell) const;
+				bool searchSingle() const;
+				bool searchDouble() const;
+//				bool searchMultiple(int depth) const;
+				bool searchSingle(const Cell & targetCell) const;
+				bool searchDouble(const Cell & targetCell) const;
 				
-//				bool searchByMultiplePoints(const Cell & targetCell,
+//				bool searchMultiple(const Cell & targetCell,
 //						int depth) const;
 				
 				virtual ~Searcher() {
@@ -76,13 +76,13 @@ namespace minesweeper {
 					}
 				}
 				
-//				const BipartiteCells & getInput() const {
-//					return &const_cast<const BipartiteCells *>(input);
-//				}
-//				
-//				const BipartiteCells & getOutput() const {
-//					return &const_cast<const BipartiteCells *>(output);
-//				}
+				const BipartiteCells & getInput() const {
+					return *input;
+				}
+				
+				const BipartiteCells & getOutput() const {
+					return *output;
+				}
 				
 				CellSet & getInputRedCells() const {
 					return input->getRedCells();
