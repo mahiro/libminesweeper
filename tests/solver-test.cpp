@@ -4,7 +4,7 @@
 
 using namespace minesweeper::solver;
 
-static Searcher * pSearcher = 0;
+static const Result * pResult = 0;
 
 static bool isCellInSet(const Cell & cell, const CellSet & cells) {
 	return cells.find(&cell) != cells.end();
@@ -12,17 +12,16 @@ static bool isCellInSet(const Cell & cell, const CellSet & cells) {
 
 static int getCellResult(const Cell & cell) {
 	int ret = 0;
-	if (isCellInSet(cell, pSearcher->getInputRedCells  ())) ret |= INPUT  | RED ;
-	if (isCellInSet(cell, pSearcher->getInputBlueCells ())) ret |= INPUT  | BLUE;
-	if (isCellInSet(cell, pSearcher->getOutputRedCells ())) ret |= OUTPUT | RED ;
-	if (isCellInSet(cell, pSearcher->getOutputBlueCells())) ret |= OUTPUT | BLUE;
+	if (isCellInSet(cell, pResult->getInputRedCells  ())) ret |= INPUT  | RED ;
+	if (isCellInSet(cell, pResult->getInputBlueCells ())) ret |= INPUT  | BLUE;
+	if (isCellInSet(cell, pResult->getOutputRedCells ())) ret |= OUTPUT | RED ;
+	if (isCellInSet(cell, pResult->getOutputBlueCells())) ret |= OUTPUT | BLUE;
 	return ret;
 }
 
 void testSearchBySinglePoint_1() {
 	SolverField field(3, 3);
 	Searcher searcher(field);
-	pSearcher = &searcher;
 	
 	setFieldMatrix(field,
 		-C ,  (M), -C,
@@ -33,6 +32,7 @@ void testSearchBySinglePoint_1() {
 	assertEquals(true, searcher.hasResult());
 	
 	if (!searcher.hasResult()) return;
+	pResult = &searcher.getResult();
 	
 	assertFieldMatrix(field, getCellResult,
 		 0, OR,  0,
@@ -43,7 +43,6 @@ void testSearchBySinglePoint_1() {
 void testSearchBySinglePoint_2() {
 	SolverField field(3, 3);
 	Searcher searcher(field);
-	pSearcher = &searcher;
 	
 	setFieldMatrix(field,
 		(0),  M|F, (0),
@@ -54,6 +53,7 @@ void testSearchBySinglePoint_2() {
 	assertEquals(true, searcher.hasResult());
 	
 	if (!searcher.hasResult()) return;
+	pResult = &searcher.getResult();
 	
 	assertFieldMatrix(field, getCellResult,
 		OB,  0, OB,
@@ -64,7 +64,6 @@ void testSearchBySinglePoint_2() {
 void testSearchByDoublePoints_1() {
 	SolverField field(4, 3);
 	Searcher searcher(field);
-	pSearcher = &searcher;
 	
 	setFieldMatrix(field,
 		(M),   0 ,   M , (0),
@@ -75,6 +74,7 @@ void testSearchByDoublePoints_1() {
 	assertEquals(true, searcher.hasResult());
 	
 	if (!searcher.hasResult()) return;
+	pResult = &searcher.getResult();
 	
 	assertFieldMatrix(field, getCellResult,
 		OR,  0,  0, OB,
@@ -85,7 +85,6 @@ void testSearchByDoublePoints_1() {
 void testSearchByDoublePoints_2() {
 	SolverField field(4, 3);
 	Searcher searcher(field);
-	pSearcher = &searcher;
 	
 	setFieldMatrix(field,
 		(0),   M ,   0 , (M),
@@ -96,6 +95,7 @@ void testSearchByDoublePoints_2() {
 	assertEquals(true, searcher.hasResult());
 	
 	if (!searcher.hasResult()) return;
+	pResult = &searcher.getResult();
 	
 	assertFieldMatrix(field, getCellResult,
 		OB,  0,  0, OR,
@@ -106,7 +106,6 @@ void testSearchByDoublePoints_2() {
 void testSearchByDoublePoints_3() {
 	SolverField field(5, 3);
 	Searcher searcher(field);
-	pSearcher = &searcher;
 	
 	setFieldMatrix(field,
 		-C ,  M|F, 0,  (0), (0),
@@ -117,6 +116,7 @@ void testSearchByDoublePoints_3() {
 	assertEquals(true, searcher.hasResult());
 	
 	if (!searcher.hasResult()) return;
+	pResult = &searcher.getResult();
 	
 	assertFieldMatrix(field, getCellResult,
 		0,  0, 0, OB, OB,

@@ -68,14 +68,14 @@ namespace minesweeper {
 			return frontierCells;
 		}
 		
-		void SolverField::handleResult(const Searcher & searcher) const {
-			const CellSet & redCells = searcher.getOutputRedCells();
+		void SolverField::handleResult(const Result & result) const {
+			const CellSet & redCells = result.getOutputRedCells();
 			
 			for (CellSetIter it = redCells.begin(); it != redCells.end(); it++) {
 				(*it)->setFlag();
 			}
 			
-			const CellSet & blueCells = searcher.getOutputBlueCells();
+			const CellSet & blueCells = result.getOutputBlueCells();
 			
 			for (CellSetIter it = blueCells.begin(); it != blueCells.end(); it++) {
 				(*it)->uncover();
@@ -108,7 +108,7 @@ namespace minesweeper {
 //				}
 				
 				if (searcher.hasResult()) {
-					handleResult(searcher);
+					handleResult(searcher.getResult());
 					
 					int unknowns = countUnknownCells();
 					

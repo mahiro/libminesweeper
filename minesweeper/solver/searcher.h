@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "bipartite.h"
+#include "result.h"
 
 namespace minesweeper {
 	namespace solver {
@@ -11,10 +12,7 @@ namespace minesweeper {
 		class Searcher {
 			private:
 				const SolverField & field;
-				mutable BipartiteCells * input;
-				mutable BipartiteCells * output;
-				const bool backward;
-				mutable bool found;
+				mutable Result * result;
 				
 //				bool traverseForward(const CellSet & currentCells,
 //						const BipartiteCells & input,
@@ -31,9 +29,7 @@ namespace minesweeper {
 				
 			public:
 				explicit Searcher(const SolverField & _field) :
-						field(_field),
-						input(0), output(0),
-						backward(false), found(false) {}
+						field(_field), result(0) {}
 				
 				bool searchForward(int depth) const;
 //				bool searchBackward(int depth, bool fast = true) const;
@@ -47,57 +43,32 @@ namespace minesweeper {
 //						int depth) const;
 				
 				virtual ~Searcher() {
-					if (input) {
-						delete input;
-					}
-					
-					if (output) {
-						delete output;
+					if (result) {
+						delete result;
 					}
 				}
 				
 				bool hasResult() const {
-					return found;
+					return result != 0;
 				}
 				
-				void setResultFound() const {
-					if (!found) {
-						input = new BipartiteCells();
-						output = new BipartiteCells();
-						found = true;
+				const Result & setResultFound(bool backward) const {
+					if (!result) {
+						result = new Result(backward);
 					}
+					
+					return *result;
+				}
+				
+				const Result & getResult() const {
+					return *result;
 				}
 				
 				void resetResult() const {
-					if (found) {
-						delete input;
-						delete output;
-						found = false;
+					if (result) {
+						delete result;
+						result = 0;
 					}
-				}
-				
-				const BipartiteCells & getInput() const {
-					return *input;
-				}
-				
-				const BipartiteCells & getOutput() const {
-					return *output;
-				}
-				
-				CellSet & getInputRedCells() const {
-					return input->getRedCells();
-				}
-				
-				CellSet & getInputBlueCells() const {
-					return input->getBlueCells();
-				}
-				
-				CellSet & getOutputRedCells() const {
-					return output->getRedCells();
-				}
-				
-				CellSet & getOutputBlueCells() const {
-					return output->getBlueCells();
 				}
 				
 		};

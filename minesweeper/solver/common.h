@@ -14,8 +14,10 @@ namespace minesweeper {
 		class BipartiteCells;
 		class Searcher;
 		class SuspectState;
-//		class CombinationGenerator;
-//		class CombinationIter;
+		class Result;
+		
+		template <typename T>
+		class CombinationGenerator;
 		
 		typedef std::set<const Cell *> CellSet;
 		typedef std::set<const Cell *>::const_iterator CellSetIter;

@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "searcher.h"
+#include "result.h"
 
 namespace minesweeper {
 	namespace solver {
@@ -22,7 +23,7 @@ namespace minesweeper {
 				
 			protected:
 				virtual void clearUnknowns() const;
-				virtual void handleResult(const Searcher & searcher) const;
+				virtual void handleResult(const Result & result) const;
 				
 			public:
 				explicit SolverField(int _width, int _height, bool _init = true) :
