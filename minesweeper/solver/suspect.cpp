@@ -34,12 +34,31 @@ namespace minesweeper {
 		}
 		
 		bool SuspectState::suspectMultiple(const CellSet & redCells, const CellSet & blueCells) const {
+			incrSuspectAround(redCells);
+			decrSuspectAround(blueCells);
 			
+			int diff = sumRest(redCells) - sumRest(blueCells);
 			
+			if (diff == positives) {
+				setResultMultiple(redCells, blueCells, true);
+			} else if (diff == negatives) {
+				setResultMultiple(blueCells, redCells, false);
+			}
 			
+			decrSuspectAround(redCells);
+			incrSuspectAround(blueCells);
 			
+			return searcher.hasResult();
+		}
+		
+		int SuspectState::sumRest(const CellSet & cells) const {
+			int sum = 0;
 			
-			return false;
+			for (CellSetIter it = cells.begin(); it != cells.end(); it++) {
+				sum += (*it)->getRest();
+			}
+			
+			return sum;
 		}
 		
 		void SuspectState::incrSuspectAround(const Cell & cell) const {
@@ -70,6 +89,18 @@ namespace minesweeper {
 			}
 		}
 		
+		void SuspectState::incrSuspectAround(const CellSet & cells) const {
+			for (CellSetIter it = cells.begin(); it != cells.end(); it++) {
+				incrSuspectAround(**it);
+			}
+		}
+		
+		void SuspectState::decrSuspectAround(const CellSet & cells) const {
+			for (CellSetIter it = cells.begin(); it != cells.end(); it++) {
+				decrSuspectAround(**it);
+			}
+		}
+		
 		void SuspectState::setResultSingle(const Cell & inputCell, bool forRed) const {
 			const Result & result = searcher.setResultFound(false);
 			result.getInput().getRedOrBlueCells(forRed).insert(&inputCell);
@@ -93,8 +124,26 @@ namespace minesweeper {
 			blueCells.insert(&blueCell);
 			
 			const BipartiteCells & output = result.getOutput();
-			collectOutput(output.getRedCells(), redCells, blueCells, forRed);
-			collectOutput(output.getBlueCells(), blueCells, redCells, !forRed);
+			bool forPositives = forRed;
+			collectOutput(output.getRedCells(), redCells, blueCells, forPositives);
+			collectOutput(output.getBlueCells(), blueCells, redCells, !forPositives);
+		}
+		
+		void SuspectState::setResultMultiple(const CellSet & redCells, const CellSet & blueCells, bool forRed) const {
+			const Result & result = searcher.setResultFound(false);
+			
+			for (CellSetIter it = redCells.begin(); it != redCells.end(); it++) {
+				result.getInputRedCells().insert(*it);
+			}
+			
+			for (CellSetIter it = blueCells.begin(); it != blueCells.end(); it++) {
+				result.getInputBlueCells().insert(*it);
+			}
+			
+			const BipartiteCells & output = result.getOutput();
+			bool forPositives = forRed;
+			collectOutput(output.getRedCells(), redCells, blueCells, forPositives);
+			collectOutput(output.getBlueCells(), blueCells, redCells, !forPositives);
 		}
 		
 		void SuspectState::collectOutput(CellSet & outputCells,

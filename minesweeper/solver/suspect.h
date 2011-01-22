@@ -16,8 +16,14 @@ namespace minesweeper {
 				
 				void incrSuspectAround(const Cell & cell) const;
 				void decrSuspectAround(const Cell & cell) const;
+				void incrSuspectAround(const CellSet & cells) const;
+				void decrSuspectAround(const CellSet & cells) const;
+				
 				void setResultSingle(const Cell & inputCell, bool forRed) const;
 				void setResultDouble(const Cell & redCell, const Cell & blueCell, bool forRed) const;
+				void setResultMultiple(const CellSet & redCells, const CellSet & blueCells, bool forRed) const;
+				
+				int sumRest(const CellSet & cells) const;
 				
 				void collectOutput(CellSet & outputCells, const CellSet & inputCells,
 						const CellSet & otherInputCells, bool forPositives) const;
