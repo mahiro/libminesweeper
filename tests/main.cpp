@@ -1,6 +1,7 @@
 #include <iostream>
 #include "test.h"
 #include "core-test.h"
+#include "combination-test.h"
 #include "solver-test.h"
 
 void printLine() {
@@ -43,6 +44,8 @@ int main() {
 	testCells();
 	testDig();
 	testDigWithFlags();
+	
+	testCombinations();
 	
 	testSearchBySinglePoint_1();
 	testSearchBySinglePoint_2();

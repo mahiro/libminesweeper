@@ -1,5 +1,5 @@
-#ifndef _TEST_H_INCLUDED_
-#define _TEST_H_INCLUDED_
+#ifndef _TESTS_TEST_H_
+#define _TESTS_TEST_H_
 
 #include "../minesweeper.h"
 
@@ -19,6 +19,8 @@
 
 int countSuccess();
 int countFailure();
+void recordSuccess();
+void recordFailure();
 int getCellNumber(const minesweeper::core::Cell & cell);
 int getCellRest(const minesweeper::core::Cell & cell);
 int getCellCovered(const minesweeper::core::Cell & cell);
@@ -34,7 +36,13 @@ bool _assertFieldMatrix(const char *filename, int lineno,
 #define assertFieldMatrix(_field, _func, ...) \
 	_assertFieldMatrix(__FILE__, __LINE__, (_field), (_func), __VA_ARGS__)
 
-#define assertEquals(expected, actual) \
-	_assertEquals(__FILE__, __LINE__, expected, actual)
+#define assertEquals(_expected, _actual) \
+	_assertEquals(__FILE__, __LINE__, (_expected), (_actual))
+
+#define assertTrue(_actual) \
+	_assertEquals(__FILE__, __LINE__, true, (_actual))
+
+#define assertFalse(_actual) \
+	_assertEquals(__FILE__, __LINE__, false, (_actual))
 
 #endif

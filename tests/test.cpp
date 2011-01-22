@@ -13,6 +13,14 @@ int countFailure() {
 	return failure;
 }
 
+void recordSuccess() {
+	success++;
+}
+
+void recordFailure() {
+	failure++;
+}
+
 int getCellNumber(const minesweeper::core::Cell & cell) {
 	return cell.getNumber();
 }
@@ -63,14 +71,16 @@ void setFieldMatrix(const minesweeper::core::Field & field, ...) {
 
 bool _assertEquals(const char *filename, int lineno, int expected, int actual) {
 	if (expected == actual) {
-		success++;
+		recordSuccess();
 		return true;
 	} else {
-		std::cout << std::endl
-			<< "FAILED: expected " << expected << " but was " << actual
-			<< " in assertEquals at " << filename << ":" << lineno << std::endl;
+		if (filename) {
+			std::cout << std::endl
+				<< "FAILED: expected " << expected << " but was " << actual
+				<< " in assertEquals at " << filename << ":" << lineno << std::endl;
+		}
 		
-		failure++;
+		recordFailure();
 		return false;
 	}
 }
@@ -91,10 +101,12 @@ bool _assertFieldMatrix(const char *filename, int lineno,
 			int actual = func(cell);
 			
 			if (expected != actual) {
-				std::cout << std::endl
-					<< "FAILED: expected " << expected << " but was " << actual
-					<< " for cell (" << x << ", " << y << ") in assertFieldMatrix"
-					<< " at " << filename << ":" << lineno << std::endl;
+				if (filename) {
+					std::cout << std::endl
+						<< "FAILED: expected " << expected << " but was " << actual
+						<< " for cell (" << x << ", " << y << ") in assertFieldMatrix"
+						<< " at " << filename << ":" << lineno << std::endl;
+				}
 				
 				ok = false;
 				break;
@@ -105,9 +117,9 @@ bool _assertFieldMatrix(const char *filename, int lineno,
 	va_end(ap);
 	
 	if (ok) {
-		success++;
+		recordSuccess();
 	} else {
-		failure++;
+		recordFailure();
 	}
 	
 	return ok;
