@@ -31,7 +31,7 @@ namespace minesweeper {
 				
 				bool suspectSingle(const Cell & targetCell) const;
 				bool suspectDouble(const Cell & redCell, const Cell & blueCell) const;
-//				bool suspectMultiple(const CellSet & redCells, const CellSet & blueCells) const;
+				bool suspectMultiple(const CellSet & redCells, const CellSet & blueCells) const;
 		};
 	}
 }

@@ -20,7 +20,7 @@ obj/minesweeper/core/field.o: minesweeper/core/field.cpp minesweeper/core/cell.h
 	mkdir -p obj/minesweeper/core
 	g++ -c -Wall -o$@ minesweeper/core/field.cpp
 
-obj/minesweeper/solver/searcher.o: minesweeper/solver/searcher.cpp minesweeper/solver/../core/cell.h minesweeper/solver/../core/common.h minesweeper/solver/../core/field.h minesweeper/solver/bipartite.h minesweeper/solver/common.h minesweeper/solver/result.h minesweeper/solver/searcher.h minesweeper/solver/solver-cell.h minesweeper/solver/solver-field.h minesweeper/solver/suspect.h
+obj/minesweeper/solver/searcher.o: minesweeper/solver/searcher.cpp minesweeper/solver/../core/cell.h minesweeper/solver/../core/common.h minesweeper/solver/../core/field.h minesweeper/solver/bipartite.h minesweeper/solver/combination.h minesweeper/solver/common.h minesweeper/solver/result.h minesweeper/solver/searcher.h minesweeper/solver/solver-cell.h minesweeper/solver/solver-field.h minesweeper/solver/suspect.h
 	mkdir -p obj/minesweeper/solver
 	g++ -c -Wall -o$@ minesweeper/solver/searcher.cpp
 

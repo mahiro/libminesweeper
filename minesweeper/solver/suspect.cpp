@@ -33,9 +33,14 @@ namespace minesweeper {
 			return searcher.hasResult();
 		}
 		
-//		void SuspectState::suspectMultiple(const CellSet & redCells, const CellSet & blueCells) const {
-//			
-//		}
+		bool SuspectState::suspectMultiple(const CellSet & redCells, const CellSet & blueCells) const {
+			
+			
+			
+			
+			
+			return false;
+		}
 		
 		void SuspectState::incrSuspectAround(const Cell & cell) const {
 			for (AdjIter adj = cell.begin(); adj != cell.end(); adj++) {

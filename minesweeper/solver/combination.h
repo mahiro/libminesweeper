@@ -11,19 +11,19 @@ namespace minesweeper {
 		class CombinationGenerator {
 			private:
 				std::vector<T> items;
-				std::size_t numItems;
-				std::size_t minK, maxK;
+				int numItems;
+				int minK, maxK;
 				
-				size_t k;
-				std::size_t * indices;
+				int k;
+				int * indices;
 				
 				std::set<T> result;
 				
 				void refreshIndices();
-				bool advance(std::size_t i);
+				bool advance(int i);
 				
 			public:
-				explicit CombinationGenerator(const std::set<T> & input, std::size_t _minK, std::size_t _maxK);
+				explicit CombinationGenerator(const std::set<T> & input, int _minK, int _maxK);
 				virtual ~CombinationGenerator();
 				
 				const std::set<T> & next();
@@ -31,10 +31,11 @@ namespace minesweeper {
 				bool hasNext() const {
 					return k <= maxK;
 				}
+				
 		};
 		
 		template <typename T>
-		CombinationGenerator<T>::CombinationGenerator(const std::set<T> & input, std::size_t _minK, std::size_t _maxK) :
+		CombinationGenerator<T>::CombinationGenerator(const std::set<T> & input, int _minK, int _maxK) :
 					items(input.begin(), input.end()), minK(_minK), maxK(_maxK), k(_minK), result() {
 			numItems = input.size();
 			
@@ -52,9 +53,9 @@ namespace minesweeper {
 		
 		template <typename T>
 		void CombinationGenerator<T>::refreshIndices() {
-			indices = new std::size_t[k];
+			indices = new int[k];
 			
-			for (std::size_t i = 0; i < k; i++) {
+			for (int i = 0; i < k; i++) {
 				indices[i] = i;
 			}
 		}
@@ -63,7 +64,7 @@ namespace minesweeper {
 		const std::set<T> & CombinationGenerator<T>::next() {
 			result.clear();
 			
-			for (std::size_t i = 0; i < k; i++) {
+			for (int i = 0; i < k; i++) {
 				result.insert(items[indices[i]]);
 			}
 			
@@ -80,7 +81,7 @@ namespace minesweeper {
 		}
 		
 		template <typename T>
-		bool CombinationGenerator<T>::advance(size_t i) {
+		bool CombinationGenerator<T>::advance(int i) {
 			if (indices[i] + (k - i) >= numItems) {
 				return false;
 			}
@@ -91,7 +92,7 @@ namespace minesweeper {
 			
 			indices[i]++;
 			
-			for (std::size_t j = i + 1; j < k; j++) {
+			for (int j = i + 1; j < k; j++) {
 				indices[j] = indices[j - 1] + 1;
 			}
 			

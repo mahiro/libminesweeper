@@ -47,11 +47,18 @@ int main() {
 	
 	testCombinations();
 	
-	testSearchBySinglePoint_1();
-	testSearchBySinglePoint_2();
-	testSearchByDoublePoints_1();
-	testSearchByDoublePoints_2();
-	testSearchByDoublePoints_3();
+	testSearchSingle_1();
+	testSearchSingle_2();
+	testSearchDouble_1();
+	testSearchDouble_2();
+	testSearchDouble_3();
+	
+	testSearchMultiple_Depth3_1();
+	testSearchMultiple_Depth3_2();
+	testSearchMultiple_Depth3_3();
+	testSearchMultiple_Depth4_1();
+	testSearchMultiple_Depth4_2();
+	testSearchMultiple_Depth5_1();
 	
 	printTestResults();
 	return 0;

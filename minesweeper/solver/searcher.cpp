@@ -2,6 +2,7 @@
 #include "solver-field.h"
 #include "solver-cell.h"
 #include "suspect.h"
+#include "combination.h"
 
 namespace minesweeper {
 	namespace solver {
@@ -12,8 +13,8 @@ namespace minesweeper {
 				return searchSingle();
 			} else if (depth == 2) {
 				return searchDouble();
-//			} else {
-//				return searchMultiple(depth);
+			} else {
+				return searchMultiple(depth);
 			}
 			
 			return false;
@@ -69,23 +70,23 @@ namespace minesweeper {
 			return false;
 		}
 		
-//		bool Searcher::searchMultiple(int depth) const {
-//			const CellSet & frontierCells = field.getFrontierCells();
-//			BipartiteCells marking(CellSet(), CellSet());
-//			
-//			for (CellSetIter it = frontierCells.begin(); it != frontierCells.end(); it++) {
-//				const CellSet currentCells, inputCells;
-//				currentCells.insert(*it);
-//				inputCells.insert(*it);
-//				const BipartiteCells input(inputCells, CellSet());
-//				
-//				if (traverseForward(currentCells, input, marking, true, depth - 1)) {
-//					return true;
-//				}
-//			}
-//			
-//			return false;
-//		}
+		bool Searcher::searchMultiple(int depth) const {
+			const CellSet & frontierCells = field.getFrontierCells();
+			BipartiteCells marking;
+			
+			for (CellSetIter it = frontierCells.begin(); it != frontierCells.end(); it++) {
+				CellSet currentCells, inputCells;
+				currentCells.insert(*it);
+				inputCells.insert(*it);
+				const BipartiteCells input(inputCells, CellSet());
+				
+				if (traverseForward(currentCells, input, marking, true, depth - 1)) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
 		
 		bool Searcher::searchSingle(const Cell & targetCell) const {
 			if (!dynamic_cast<const SolverCell &>(targetCell).isFrontier()) {
@@ -116,98 +117,98 @@ namespace minesweeper {
 			return false;
 		}
 		
-//		bool Searcher::searchMultiple(const Cell & targetCell, int depth) const {
-//			if (!dynamic_cast<const SolverCell &>(targetCell).isFrontier()) {
-//				return false;
-//			}
-//			
-//			const CellSet currentCells, markingCells;
-//			currentCells.insert(targetCell);
-//			markingCells.insert(targetCell);
-//			
-//			BipartiteCells input(CellSet(), CellSet());
-//			BipartiteCells marking(markingCells, CellSet());
-//			
-//			return traverseForward(currentCells, input, marking, true, depth - 1);
-//		}
-//		
-//		bool Searcher::traverseForward(const CellSet & currentCells,
-//				const BipartiteCells & input, const BipartiteCells & marking,
-//				bool forRed, int depthLeft) const {
-//			const CellSet & inputCells = input.getRedOrBlueCells(forRed);
-//			
-//			for (CellSetIter it = currentCells.begin(); it != currentCells.end(); it++) {
-//				inputCells.insert(*it);
-//			}
-//			
-//			bool ret = false;
-//			
-//			if (depthLeft <= 0) {
-//				SuspectState state(*this, 0);
-//				ret = state.suspectMultiple(input.getRedCells(), input.getBlueCells());
-//			} else {
-//				bool nextForRed = !forRed;
-//				ret = traverseForwardInternal(currentCells, input, marking, nextForRed, depthLeft);
-//			}
-//			
-//			for (CellSetIter it = currentCells.begin(); it != currentCells.end(); it++) {
-//				inputCells.remote(*it);
-//			}
-//			
-//			return ret;
-//		}
-//		
-//		bool Searcher::traverseForwardInternal(const CellSet & currentCells,
-//				const BipartiteCells & input, const BipartiteCells & marking,
-//				bool nextForRed, int depthLeft) const {
-//			for (CellSetIter it = currentCells.begin(); it != currentCells.end(); it++) {
-//				const Cell & currentCell = **it;
-//				CellSet nextCandidates;
-//				const CellSet & markingCells = marking.getRedOrBlueCells(nextForRed);
-//				
-//				for (AdjIter adj = currentCell.begin(2); adj != currentCell.end(); adj++) {
-//					const CellSet & inputCells = input.getRedOrBlueCells(nextForRed);
-//					
-//					if ((*adj)->isFrontier() &&
-//							markingCells.find(*adj) == markingCells.end() &&
-//							inputCells.find(*adj) == inputCells.end()) {
-//						nextCandidates.insert(*adj);
-//					}
-//				}
-//				
-//				if (nextCandidates.empty()) {
-//					continue;
-//				}
-//				
-//				bool ret = false;
-//				
-//				for (CellSetIter it2 = nextCandidates.begin(); it2 != nextCandidates.end(); it2++) {
-//					markingCells.insert(*it2);
-//				}
-//				
-//				CombinationGenerator cg(nextCandidates, 1, depthLeft);
-//				
-//				for (CombinationIter cit = cg.begin(); cit != cg.end(); cit++) {
-//					const CellSet & nextCells = *cit;
-//					
-//					if (traverseForward(nextCells, input, marking, nextForRed, depthLeft - nextCells.size())) {
-//						ret = true;
-//						break;
-//					}
-//				}
-//				
-//				for (CellSetIter it2 = nextCandidates.begin(); it2 != nextCandidates.end(); it2++) {
-//					markingCells.remove(*it2);
-//				}
-//				
-//				if (ret) {
-//					return ret;
-//				}
-//			}
-//			
-//			return false;
-//		}
-//		
+		bool Searcher::searchMultiple(const Cell & targetCell, int depth) const {
+			if (!dynamic_cast<const SolverCell &>(targetCell).isFrontier()) {
+				return false;
+			}
+			
+			CellSet currentCells, markingCells;
+			currentCells.insert(&targetCell);
+			markingCells.insert(&targetCell);
+			
+			BipartiteCells input;
+			BipartiteCells marking(markingCells, CellSet());
+			
+			return traverseForward(currentCells, input, marking, true, depth - 1);
+		}
+		
+		bool Searcher::traverseForward(const CellSet & currentCells,
+				const BipartiteCells & input, const BipartiteCells & marking,
+				bool forRed, int depthLeft) const {
+			CellSet & inputCells = input.getRedOrBlueCells(forRed);
+			
+			for (CellSetIter it = currentCells.begin(); it != currentCells.end(); it++) {
+				inputCells.insert(*it);
+			}
+			
+			bool ret = false;
+			
+			if (depthLeft <= 0) {
+				SuspectState state(*this, 0);
+				ret = state.suspectMultiple(input.getRedCells(), input.getBlueCells());
+			} else {
+				bool nextForRed = !forRed;
+				ret = traverseForwardInternal(currentCells, input, marking, nextForRed, depthLeft);
+			}
+			
+			for (CellSetIter it = currentCells.begin(); it != currentCells.end(); it++) {
+				inputCells.erase(*it);
+			}
+			
+			return ret;
+		}
+		
+		bool Searcher::traverseForwardInternal(const CellSet & currentCells,
+				const BipartiteCells & input, const BipartiteCells & marking,
+				bool nextForRed, int depthLeft) const {
+			for (CellSetIter it = currentCells.begin(); it != currentCells.end(); it++) {
+				const Cell & currentCell = **it;
+				CellSet nextCandidates;
+				CellSet & markingCells = marking.getRedOrBlueCells(nextForRed);
+				
+				for (AdjIter adj = currentCell.begin(2); adj != currentCell.end(); adj++) {
+					const CellSet & inputCells = input.getRedOrBlueCells(nextForRed);
+					
+					if (dynamic_cast<const SolverCell *>(*adj)->isFrontier() &&
+							markingCells.find(*adj) == markingCells.end() &&
+							inputCells.find(*adj) == inputCells.end()) {
+						nextCandidates.insert(*adj);
+					}
+				}
+				
+				if (nextCandidates.empty()) {
+					continue;
+				}
+				
+				bool ret = false;
+				
+				for (CellSetIter it2 = nextCandidates.begin(); it2 != nextCandidates.end(); it2++) {
+					markingCells.insert(*it2);
+				}
+				
+				CombinationGenerator<const Cell *> cg(nextCandidates, 1, depthLeft);
+				
+				while (cg.hasNext()) {
+					const CellSet & nextCells = cg.next();
+					
+					if (traverseForward(nextCells, input, marking, nextForRed, depthLeft - nextCells.size())) {
+						ret = true;
+						break;
+					}
+				}
+				
+				for (CellSetIter it2 = nextCandidates.begin(); it2 != nextCandidates.end(); it2++) {
+					markingCells.erase(*it2);
+				}
+				
+				if (ret) {
+					return ret;
+				}
+			}
+			
+			return false;
+		}
+		
 //		bool Searcher::traverseBackwardFast(int depthLeft) const {
 //			if (depthLeft == 0) {
 //				SuspectState state(*this, 1);

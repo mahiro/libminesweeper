@@ -1,11 +1,18 @@
 #ifndef _TESTS_SOLVER_TEST_H_
 #define _TESTS_SOLVER_TEST_H_
 
-void testSearchBySinglePoint_1();
-void testSearchBySinglePoint_2();
-void testSearchByDoublePoints_1();
-void testSearchByDoublePoints_2();
-void testSearchByDoublePoints_3();
+void testSearchSingle_1();
+void testSearchSingle_2();
 
+void testSearchDouble_1();
+void testSearchDouble_2();
+void testSearchDouble_3();
+
+void testSearchMultiple_Depth3_1();
+void testSearchMultiple_Depth3_2();
+void testSearchMultiple_Depth3_3();
+void testSearchMultiple_Depth4_1();
+void testSearchMultiple_Depth4_2();
+void testSearchMultiple_Depth5_1();
 
 #endif

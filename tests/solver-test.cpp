@@ -19,7 +19,7 @@ static int getCellResult(const Cell & cell) {
 	return ret;
 }
 
-void testSearchBySinglePoint_1() {
+void testSearchSingle_1() {
 	SolverField field(3, 3);
 	Searcher searcher(field);
 	
@@ -40,7 +40,7 @@ void testSearchBySinglePoint_1() {
 		 0,  0, OR);
 }
 
-void testSearchBySinglePoint_2() {
+void testSearchSingle_2() {
 	SolverField field(3, 3);
 	Searcher searcher(field);
 	
@@ -61,7 +61,7 @@ void testSearchBySinglePoint_2() {
 		OB, OB,  0);
 }
 
-void testSearchByDoublePoints_1() {
+void testSearchDouble_1() {
 	SolverField field(4, 3);
 	Searcher searcher(field);
 	
@@ -82,7 +82,7 @@ void testSearchByDoublePoints_1() {
 		 0,  0,  0,  0);
 }
 
-void testSearchByDoublePoints_2() {
+void testSearchDouble_2() {
 	SolverField field(4, 3);
 	Searcher searcher(field);
 	
@@ -103,7 +103,7 @@ void testSearchByDoublePoints_2() {
 		OB,  0,  0, OR);
 }
 
-void testSearchByDoublePoints_3() {
+void testSearchDouble_3() {
 	SolverField field(5, 3);
 	Searcher searcher(field);
 	
@@ -122,4 +122,28 @@ void testSearchByDoublePoints_3() {
 		0,  0, 0, OB, OB,
 		0, IR, 0, IB, OB,
 		0,  0, 0, OB, OB);
+}
+
+void testSearchMultiple_Depth3_1() {
+	
+}
+
+void testSearchMultiple_Depth3_2() {
+	
+}
+
+void testSearchMultiple_Depth3_3() {
+	
+}
+
+void testSearchMultiple_Depth4_1() {
+	
+}
+
+void testSearchMultiple_Depth4_2() {
+	
+}
+
+void testSearchMultiple_Depth5_1() {
+	
 }

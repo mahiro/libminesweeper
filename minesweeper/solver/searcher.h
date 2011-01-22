@@ -14,16 +14,16 @@ namespace minesweeper {
 				const SolverField & field;
 				mutable Result * result;
 				
-//				bool traverseForward(const CellSet & currentCells,
-//						const BipartiteCells & input,
-//						const BipartiteCells & marking,
-//						bool forRed, int depthLeft) const;
-//				
-//				bool traverseForwardInternal(const CellSet & currentCells,
-//						const BipartiteCells & input,
-//						const BipartiteCells & marking,
-//						bool nextForRed, int depthLeft) const;
-//				
+				bool traverseForward(const CellSet & currentCells,
+						const BipartiteCells & input,
+						const BipartiteCells & marking,
+						bool forRed, int depthLeft) const;
+				
+				bool traverseForwardInternal(const CellSet & currentCells,
+						const BipartiteCells & input,
+						const BipartiteCells & marking,
+						bool nextForRed, int depthLeft) const;
+				
 //				bool traverseBackwardFast(int depthLeft) const;
 //				bool traverseBackward(int depthLeft) const;
 				
@@ -35,12 +35,10 @@ namespace minesweeper {
 //				bool searchBackward(int depth, bool fast = true) const;
 				bool searchSingle() const;
 				bool searchDouble() const;
-//				bool searchMultiple(int depth) const;
+				bool searchMultiple(int depth) const;
 				bool searchSingle(const Cell & targetCell) const;
 				bool searchDouble(const Cell & targetCell) const;
-				
-//				bool searchMultiple(const Cell & targetCell,
-//						int depth) const;
+				bool searchMultiple(const Cell & targetCell, int depth) const;
 				
 				virtual ~Searcher() {
 					if (result) {
