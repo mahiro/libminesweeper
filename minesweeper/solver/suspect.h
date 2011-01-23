@@ -21,12 +21,14 @@ namespace minesweeper {
 				
 				void setResultSingle(const Cell & inputCell, bool forRed) const;
 				void setResultDouble(const Cell & redCell, const Cell & blueCell, bool forRed) const;
-				void setResultMultiple(const CellSet & redCells, const CellSet & blueCells, bool forRed) const;
+				void setResultMultiple(const CellSet & redCells, const CellSet & blueCells, bool forRed, bool backward = false) const;
 				
 				int sumRest(const CellSet & cells) const;
 				
 				void collectOutput(CellSet & outputCells, const CellSet & inputCells,
 						const CellSet & otherInputCells, bool forPositives) const;
+				
+				void collectUnknownsAround(CellSet & outputCell, const CellSet & inputCells) const;
 				
 			public:
 				explicit SuspectState(const Searcher & _searcher, int _offset) :
@@ -37,7 +39,8 @@ namespace minesweeper {
 				
 				bool suspectSingle(const Cell & targetCell) const;
 				bool suspectDouble(const Cell & redCell, const Cell & blueCell) const;
-				bool suspectMultiple(const CellSet & redCells, const CellSet & blueCells) const;
+				bool suspectMultiple(const CellSet & redCells, const CellSet & blueCells, bool backward = false) const;
+				
 		};
 	}
 }

@@ -82,6 +82,7 @@ namespace minesweeper {
 		
 		template <typename T>
 		bool CombinationGenerator<T>::advance(int i) {
+			
 			if (indices[i] + (k - i) >= numItems) {
 				return false;
 			}

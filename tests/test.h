@@ -6,6 +6,7 @@
 #define C minesweeper::core::Cell::COVERED
 #define M minesweeper::core::Cell::MINE
 #define F minesweeper::core::Cell::FLAG
+#define U (-minesweeper::core::Cell::COVERED)
 
 #define INPUT  0x1000
 #define OUTPUT 0x2000

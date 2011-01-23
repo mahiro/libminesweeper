@@ -5,6 +5,8 @@
 #include "searcher.h"
 #include "result.h"
 
+#include <iostream>
+
 namespace minesweeper {
 	namespace solver {
 		using namespace minesweeper::core;
@@ -47,7 +49,11 @@ namespace minesweeper {
 				void solve(int forwardDepth, int backwardDepth,
 						bool fast = true) const;
 				
+				
 		};
+		
+		std::ostream & operator << (std::ostream & out, const CellSet & cells);
+		std::ostream & operator << (std::ostream & out, const Result & result);
 	}
 }
 

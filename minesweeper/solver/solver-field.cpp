@@ -90,7 +90,7 @@ namespace minesweeper {
 		void SolverField::solve(int forwardDepth, int backwardDepth, bool fast) const {
 			int prevUnknowns = countUnknownCells();
 			
-			for (;;) {
+			while (countUnknownCells() > 0) {
 				Searcher searcher(*this);
 				
 				for (int depth = 1; depth <= forwardDepth; depth++) {
@@ -99,13 +99,13 @@ namespace minesweeper {
 					}
 				}
 				
-//				if (!searcher.hasResult()) {
-//					for (int depth = 0; depth <= backwardDepth; depth++) {
-//						if (searcher.searchBackward(depth, fast)) {
-//							break;
-//						}
-//					}
-//				}
+				if (!searcher.hasResult()) {
+					for (int depth = 0; depth <= backwardDepth; depth++) {
+						if (searcher.searchBackward(depth, fast)) {
+							break;
+						}
+					}
+				}
 				
 				if (searcher.hasResult()) {
 					handleResult(searcher.getResult());
@@ -120,6 +120,56 @@ namespace minesweeper {
 				
 				break;
 			}
+		}
+		
+		std::ostream & operator << (std::ostream & out, const CellSet & cells) {
+			bool first = true;
+			out << "{";
+			
+			for (CellSetIter it = cells.begin(); it != cells.end(); it++) {
+				if (first) {
+					first = false;
+				} else {
+					out << ", ";
+				}
+				
+				out << "(" << (*it)->getX() << ", " << (*it)->getY() << ")";
+			}
+			
+			out << "}";
+			
+			return out;
+		}
+		
+		std::ostream & operator << (std::ostream & out, const Result & result) {
+			const SolverField & field = result.getField();
+			
+			const CellSet & inputRed = result.getInputRedCells();
+			const CellSet & inputBlue = result.getInputBlueCells();
+			const CellSet & outputRed = result.getOutputRedCells();
+			const CellSet & outputBlue = result.getOutputBlueCells();
+			
+			for (int y = 0; y < field.getHeight(); y++) {
+				for (int x = 0; x < field.getWidth(); x++) {
+					const Cell & cell = field.getCell(x, y);
+					
+					if (inputRed.find(&cell) != inputRed.end()) {
+						out << "r ";
+					} else if (inputBlue.find(&cell) != inputBlue.end()) {
+						out << "b ";
+					} else if (outputRed.find(&cell) != outputRed.end()) {
+						out << "R ";
+					} else if (outputBlue.find(&cell) != outputBlue.end()) {
+						out << "B ";
+					} else {
+						out << "- ";
+					}
+				}
+				
+				out << std::endl;
+			}
+			
+			return out;
 		}
 	}
 }

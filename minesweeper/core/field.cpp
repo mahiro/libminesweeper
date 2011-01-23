@@ -94,52 +94,6 @@ namespace minesweeper {
 			return endIter;
 		}
 		
-		void Field::print() const {
-			print(std::cout);
-		}
-		
-		void Field::print(std::ostream & out) const {
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
-					const Cell & cell = getCell(x, y);
-					
-					if (cell.isCovered()) {
-						if (cell.hasFlag()) {
-							out << "F ";
-						} else {
-							out << "- ";
-						}
-					} else if (cell.hasMine()) {
-						out << "* ";
-					} else {
-						if (cell.getNumber() == 0) {
-							out << ". ";
-						} else {
-							out << cell.getNumber() << " ";
-						}
-					}
-				}
-				
-				out << "  ";
-				
-				for (int x = 0; x < width; x++) {
-					const Cell & cell = getCell(x, y);
-					
-					if (cell.hasMine()) {
-						out << "* ";
-					} else {
-						if (cell.getNumber() == 0) {
-							out << ". ";
-						} else {
-							out << cell.getNumber() << " ";
-						}
-					}
-				}
-				
-				out << std::endl;
-			}
-		}
-		
 		/**********************************************************************
 		 * FieldIter
 		 **********************************************************************/
@@ -221,5 +175,51 @@ namespace minesweeper {
 			return tmp;
 		}
 		
+		/**********************************************************************
+		 * Other
+		 **********************************************************************/
+		std::ostream & operator << (std::ostream & out, const Field & field) {
+			for (int y = 0; y < field.getHeight(); y++) {
+				for (int x = 0; x < field.getWidth(); x++) {
+					const Cell & cell = field.getCell(x, y);
+					
+					if (cell.isCovered()) {
+						if (cell.hasFlag()) {
+							out << "F ";
+						} else {
+							out << "- ";
+						}
+					} else if (cell.hasMine()) {
+						out << "* ";
+					} else {
+						if (cell.getNumber() == 0) {
+							out << ". ";
+						} else {
+							out << cell.getNumber() << " ";
+						}
+					}
+				}
+				
+				out << "  ";
+				
+				for (int x = 0; x < field.getWidth(); x++) {
+					const Cell & cell = field.getCell(x, y);
+					
+					if (cell.hasMine()) {
+						out << "* ";
+					} else {
+						if (cell.getNumber() == 0) {
+							out << ". ";
+						} else {
+							out << cell.getNumber() << " ";
+						}
+					}
+				}
+				
+				out << std::endl;
+			}
+			
+			return out;
+		}
 	}
 }

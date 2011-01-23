@@ -24,15 +24,21 @@ namespace minesweeper {
 						const BipartiteCells & marking,
 						bool nextForRed, int depthLeft) const;
 				
-//				bool traverseBackwardFast(int depthLeft) const;
-//				bool traverseBackward(int depthLeft) const;
+				bool traverseBackwardFast(int depthLeft) const;
+				bool traverseBackward(int depthLeft) const;
 				
 			public:
 				explicit Searcher(const SolverField & _field) :
 						field(_field), result(0) {}
 				
+				virtual ~Searcher() {
+					if (result) {
+						delete result;
+					}
+				}
+				
 				bool searchForward(int depth) const;
-//				bool searchBackward(int depth, bool fast = true) const;
+				bool searchBackward(int depth, bool fast = true) const;
 				bool searchSingle() const;
 				bool searchDouble() const;
 				bool searchMultiple(int depth) const;
@@ -40,10 +46,8 @@ namespace minesweeper {
 				bool searchDouble(const Cell & targetCell) const;
 				bool searchMultiple(const Cell & targetCell, int depth) const;
 				
-				virtual ~Searcher() {
-					if (result) {
-						delete result;
-					}
+				const SolverField & getField() const {
+					return field;
 				}
 				
 				bool hasResult() const {
@@ -52,7 +56,7 @@ namespace minesweeper {
 				
 				const Result & setResultFound(bool backward) const {
 					if (!result) {
-						result = new Result(backward);
+						result = new Result(field, backward);
 					}
 					
 					return *result;

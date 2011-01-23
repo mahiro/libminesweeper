@@ -19,43 +19,16 @@ static int getCellResult(const Cell & cell) {
 	return ret;
 }
 
-static void printResult(const Field & field) {
-	for (int y = 0; y < field.getHeight(); y++) {
-		for (int x = 0; x < field.getWidth(); x++) {
-			int ret = getCellResult(field.getCell(x, y));
-			
-			if (ret & INPUT) {
-				if (ret & RED) {
-					std::cout << "IR, ";
-				} else if (ret & BLUE) {
-					std::cout << "IB, ";
-				}
-			} else if (ret & OUTPUT) {
-				if (ret & RED) {
-					std::cout << "OR, ";
-				} else if (ret & BLUE) {
-					std::cout << "OB, ";
-				}
-			} else {
-				std::cout << " 0, ";
-			}
-		}
-		
-		std::cout << std::endl;
-	}
-}
-
 void testSearchSingle_1() {
 	SolverField field(3, 3);
 	
 	setFieldMatrix(field,
-		-C ,  (M), -C,
-		(M), (-C), -C,
-		-C ,  -C , (M));
+		 U , (M),  U,
+		(M), (U),  U,
+		 U ,  U , (M));
 	
 	Searcher searcher(field);
-	assertTrue(searcher.searchSingle(field.getCell(1, 1)));
-	
+	if (!assertTrue(searcher.searchSingle(field.getCell(1, 1)))) return;
 	if (!assertTrue(searcher.hasResult())) return;
 	pResult = &searcher.getResult();
 	
@@ -69,13 +42,12 @@ void testSearchSingle_2() {
 	SolverField field(3, 3);
 	
 	setFieldMatrix(field,
-		(0),  M|F, (0),
-		M|F, (-C), (0),
-		(0),  (0), M|F);
+		(0), M|F, (0),
+		M|F, (U), (0),
+		(0), (0), M|F);
 	
 	Searcher searcher(field);
-	assertTrue(searcher.searchSingle(field.getCell(1, 1)));
-	
+	if (!assertTrue(searcher.searchSingle(field.getCell(1, 1)))) return;
 	if (!assertTrue(searcher.hasResult())) return;
 	pResult = &searcher.getResult();
 	
@@ -89,13 +61,12 @@ void testSearchDouble_1() {
 	SolverField field(4, 3);
 	
 	setFieldMatrix(field,
-		(M),   0 ,   M , (0),
-		M|F, (-C), (-C), M|F,
-		-C ,  -C ,  -C , -C );
+		(M),  0 ,  M , (0),
+		M|F, (U), (U), M|F,
+		 U ,  U ,  U ,  U );
 	
 	Searcher searcher(field);
-	assertTrue(searcher.searchDouble(field.getCell(1, 1)));
-	
+	if (!assertTrue(searcher.searchDouble(field.getCell(1, 1)))) return;
 	if (!assertTrue(searcher.hasResult())) return;
 	pResult = &searcher.getResult();
 	
@@ -109,13 +80,12 @@ void testSearchDouble_2() {
 	SolverField field(4, 3);
 	
 	setFieldMatrix(field,
-		(0),   M ,   0 , (M),
-		(0), (-C), (-C), (M),
-		(0),   0 ,   0 , (M));
+		(0),  M ,  0 , (M),
+		(0), (U), (U), (M),
+		(0),  0 ,  0 , (M));
 	
 	Searcher searcher(field);
-	assertTrue(searcher.searchDouble(field.getCell(1, 1)));
-	
+	if (!assertTrue(searcher.searchDouble(field.getCell(1, 1)))) return;
 	if (!assertTrue(searcher.hasResult())) return;
 	pResult = &searcher.getResult();
 	
@@ -129,34 +99,32 @@ void testSearchDouble_3() {
 	SolverField field(5, 3);
 	
 	setFieldMatrix(field,
-		-C ,  M|F, 0,  (0), (0),
-		-C , (-C), M, (-C), (0),
-		M|F,  -C , 0,  (0), (0));
+		U , M|F, 0 , (0), (0),
+		U , (U), M , (U), (0),
+		U , M|F, 0 , (0), (0));
 	
 	Searcher searcher(field);
-	assertTrue(searcher.searchDouble(field.getCell(1, 1)));
-	
+	if (!assertTrue(searcher.searchDouble(field.getCell(1, 1)))) return;
 	if (!assertTrue(searcher.hasResult())) return;
 	pResult = &searcher.getResult();
 	
 	assertFieldMatrix(field, getCellResult,
-		0,  0, 0, OB, OB,
-		0, IR, 0, IB, OB,
-		0,  0, 0, OB, OB);
+		 0,  0, 0, OB, OB,
+		 0, IR, 0, IB, OB,
+		 0,  0, 0, OB, OB);
 }
 
 void testSearchMultiple_Depth3_1() {
 	SolverField field(6, 4);
 	
 	setFieldMatrix(field,
-		-C,  M|F, (M),   0 ,   0 ,  M ,
-		-C, (-C),  M ,   M ,   0 , -C ,
-		-C,  M|F,  0 , (-C), (-C), -C ,
-		 M,   0 , (0),   0 ,   0 , (M));
+		U , M|F, (M),  0 ,  0 ,  M ,
+		U , (U),  M ,  M ,  0 ,  U ,
+		U , M|F,  0 , (U), (U),  U ,
+		M ,  0 , (0),  0 ,  0 , (M));
 	
 	Searcher searcher(field);
-	assertTrue(searcher.searchMultiple(field.getCell(1, 1), 3));
-	
+	if (!assertTrue(searcher.searchMultiple(field.getCell(1, 1), 3))) return;
 	if (!assertTrue(searcher.hasResult())) return;
 	pResult = &searcher.getResult();
 	
@@ -171,14 +139,13 @@ void testSearchMultiple_Depth3_2() {
 	SolverField field(6, 4);
 	
 	setFieldMatrix(field,
-		-C,  M|F, (M),   0 ,   0 ,  M ,
-		-C, (-C),  M ,   M ,   0 , -C ,
-		-C,  M|F,  0 , (-C), (-C), -C ,
-		 M,   0 , (0),   0 ,   0 , (M));
+		U , M|F, (M),  0 ,  0 ,  M ,
+		U , (U),  M ,  M ,  0 ,  U ,
+		U , M|F,  0 , (U), (U),  U ,
+		M ,  0 , (0),  0 ,  0 , (M));
 	
 	Searcher searcher(field);
-	assertTrue(searcher.searchMultiple(field.getCell(3, 2), 3));
-	
+	if (!assertTrue(searcher.searchMultiple(field.getCell(3, 2), 3))) return;
 	if (!assertTrue(searcher.hasResult())) return;
 	pResult = &searcher.getResult();
 	
@@ -193,14 +160,13 @@ void testSearchMultiple_Depth3_3() {
 	SolverField field(4, 4);
 	
 	setFieldMatrix(field,
-		(0),   M ,   0 , (M),
-		M|F, (-C), (-C),  0 ,
-		-C ,  -C , (-C),  M ,
-		M|F,  -C ,  M|F, (0));
+		(0),  M ,  0 , (M),
+		M|F, (U), (U),  0 ,
+		 U ,  U , (U),  M ,
+		M|F,  U , M|F, (0));
 	
 	Searcher searcher(field);
-	assertTrue(searcher.searchMultiple(field.getCell(1, 1), 3));
-	
+	if (!assertTrue(searcher.searchMultiple(field.getCell(1, 1), 3))) return;
 	if (!assertTrue(searcher.hasResult())) return;
 	pResult = &searcher.getResult();
 	
@@ -215,16 +181,15 @@ void testSearchMultiple_Depth4_1() {
 	SolverField field(6, 6);
 	
 	setFieldMatrix(field,
-		 0 ,  (M),  (M),  (M),   0 ,  0 ,
-		 0 ,  (M), (-C),   0 ,  (0), (0),
-		(0),   0 ,   0 ,   M , (-C), (0),
-		(0), (-C),   M ,   0 ,   0 , (0),
-		(0),  (0),   0 , (-C),  (M),  0 ,
-		 0 ,   0 ,  (M),  (M),  (M),  0 );
+		 0 , (M), (M),  (M),  0 ,  0 ,
+		 0 , (M), (U),   0 , (0), (0),
+		(0),  0 ,  0 ,   M , (U), (0),
+		(0), (U),  M ,   0 ,  0 , (0),
+		(0), (0),  0 , ( U), (M),  0 ,
+		 0 ,  0 , (M),  (M), (M),  0 );
 	
 	Searcher searcher(field);
-	assertTrue(searcher.searchMultiple(field.getCell(2, 1), 4));
-	
+	if (!assertTrue(searcher.searchMultiple(field.getCell(2, 1), 4))) return;
 	if (!assertTrue(searcher.hasResult())) return;
 	pResult = &searcher.getResult();
 	
@@ -241,17 +206,16 @@ void testSearchMultiple_Depth4_2() {
 	SolverField field(6, 6);
 	
 	setFieldMatrix(field,
-		 0 ,   0 ,  0,  (0),  (0), (0),
-		 0 ,   0 ,  0,  (0), (-C), (0),
-		(0),  (0),  M,   0 ,   M , (0),
-		(0), (-C),  0, (-C),  (M),  0 ,
-		(0),  (0),  M,   M ,   0 , (0),
-		 0 ,   0 ,  0,  (0), (-C), (0),
-		 0 ,   0 ,  0,  (0),  (0), (0));
+		 0 ,  0 ,  0, (0), (0), (0),
+		 0 ,  0 ,  0, (0), (U), (0),
+		(0), (0),  M,  0 ,  M , (0),
+		(0), (U),  0, (U), (M),  0 ,
+		(0), (0),  M,  M ,  0 , (0),
+		 0 ,  0 ,  0, (0), (U), (0),
+		 0 ,  0 ,  0, (0), (0), (0));
 	
 	Searcher searcher(field);
-	assertTrue(searcher.searchMultiple(field.getCell(3, 3), 4));
-	
+	if (!assertTrue(searcher.searchMultiple(field.getCell(3, 3), 4))) return;
 	if (!assertTrue(searcher.hasResult())) return;
 	pResult = &searcher.getResult();
 	
@@ -269,17 +233,16 @@ void testSearchMultiple_Depth5_1() {
 	SolverField field(7, 7);
 	
 	setFieldMatrix(field,
-		 0 ,   0 ,   0 ,  (0),  (0),  (0),  0 ,
-		(0),  (0),  (0),  (0), (-C),  (0),  0 ,
-		(0), (-C),   0 ,   M ,   0 ,  (0),  0 ,
-		(0),  (0),   M , (-C),   M ,  (0), (0),
-		 0 ,  (0),   0 ,   M ,   0 , (-C), (0),
-		 0 ,  (0), (-C),  (0),  (0),  (0), (0),
-		 0 ,  (0),  (0),  (0),   0 ,   0 ,  0 );
+		 0 ,  0 ,  0 , (0), (0), (0),  0 ,
+		(0), (0), (0), (0), (U), (0),  0 ,
+		(0), (U),  0 ,  M ,  0 , (0),  0 ,
+		(0), (0),  M , (U),  M , (0), (0),
+		 0 , (0),  0 ,  M ,  0 , (U), (0),
+		 0 , (0), (U), (0), (0), (0), (0),
+		 0 , (0), (0), (0),  0 ,  0 ,  0 );
 	
 	Searcher searcher(field);
-	assertTrue(searcher.searchMultiple(field.getCell(1, 2), 5));
-	
+	if (!assertTrue(searcher.searchMultiple(field.getCell(1, 2), 5))) return;
 	if (!assertTrue(searcher.hasResult())) return;
 	pResult = &searcher.getResult();
 	
@@ -291,4 +254,162 @@ void testSearchMultiple_Depth5_1() {
 		 0,  OB,   0,   0,   0,  IB,  OB,
 		 0,  OB,  IB,  OB,  OB,  OB,  OB,
 		 0,  OB,  OB,  OB,   0,   0,   0);
+}
+
+void testBackward_Depth1_1() {
+	for (int i = 0; i < 2; i++) {
+		SolverField field(4, 4);
+		
+		setFieldMatrix(field,
+			 U , M|F,  0 , (0),
+			M|F, (U),  M , (0),
+			 0 ,  M ,  0 , (0),
+			(0), (0), (0), (0));
+		
+		Searcher searcher(field);
+		bool fast = (i == 0);
+		if (!assertTrue(searcher.searchBackward(1, fast))) return;
+		if (!assertTrue(searcher.hasResult())) return;
+		pResult = &searcher.getResult();
+		
+		assertFieldMatrix(field, getCellResult,
+			 0,  0,  0, OB,
+			 0, IR,  0, OB,
+			 0,  0,  0, OB,
+			OB, OB, OB, OB);
+	}
+}
+
+void testBackward_Depth1_2() {
+	for (int i = 0; i < 2; i++) {
+		SolverField field(4, 4);
+		
+		setFieldMatrix(field,
+			 U , M|F,  0 , (M),
+			M|F, (U),  M , (M),
+			 0 ,  M ,  0 , (M),
+			(M), (M), (M), (M));
+		
+		Searcher searcher(field);
+		bool fast = (i == 0);
+		if (!assertTrue(searcher.searchBackward(1, fast))) continue;
+		if (!assertTrue(searcher.hasResult())) continue;
+		pResult = &searcher.getResult();
+		
+		assertFieldMatrix(field, getCellResult,
+			 0,  0,  0, OR,
+			 0, IB,  0, OR,
+			 0,  0,  0, OR,
+			OR, OR, OR, OR);
+	}
+}
+
+void testBackward_Depth2_1() {
+	for (int i = 0; i < 2; i++) {
+		SolverField field(4, 4);
+		
+		setFieldMatrix(field,
+			 M|F,  (U),  0 , (0),
+			 (U),   M ,  M , (0),
+			  0 ,   M , (0), (0),
+			 (0),  (0), (0), (0));
+		
+		Searcher searcher(field);
+		bool fast = (i == 0);
+		if (!assertTrue(searcher.searchBackward(2, fast))) continue;
+		if (!assertTrue(searcher.hasResult())) continue;
+		pResult = &searcher.getResult();
+		
+		assertFieldMatrix(field, getCellResult,
+			 0, IR,  0, OB,
+			IR, OR,  0, OB,
+			 0,  0, OB, OB,
+			OB, OB, OB, OB);
+	}
+}
+
+void testBackward_Depth2_2() {
+	for (int i = 0; i < 2; i++) {
+		SolverField field(4, 4);
+		
+		setFieldMatrix(field,
+			M|F, (U),  0 , (M),
+			(U), (0),  M , (M),
+			 0 ,  M , (M), (M),
+			(M), (M), (M), (M));
+		
+		Searcher searcher(field);
+		bool fast = (i == 0);
+		if (!assertTrue(searcher.searchBackward(2, fast))) continue;
+		if (!assertTrue(searcher.hasResult())) continue;
+		pResult = &searcher.getResult();
+		
+		assertFieldMatrix(field, getCellResult,
+			 0, IB,  0, OR,
+			IB, OB,  0, OR,
+			 0,  0, OR, OR,
+			OR, OR, OR, OR);
+	}
+}
+
+void testBackward_Depth3_1() {
+	SolverField field(5, 4);
+	
+	setFieldMatrix(field,
+		(0), (0),  0 ,  M ,  0 ,
+		 0 ,  M ,  0 , (U), (0),
+		 0 , (U),  M , (U), (0),
+		 0 ,  0 , (0), (0), (0));
+	
+	Searcher searcher(field);
+	bool fast = false; // Fast mode doesn't work with red-blue-mixed backward search
+	if (!assertTrue(searcher.searchBackward(3, fast))) return;
+	if (!assertTrue(searcher.hasResult())) return;
+	pResult = &searcher.getResult();
+	
+	assertFieldMatrix(field, getCellResult,
+		 OB,  OB,   0,   0,   0,
+		  0,   0,   0,  IR,  OB,
+		  0,  IR,   0,  IB,  OB,
+		  0,   0,  OB,  OB,  OB);
+}
+
+void testSolvable() {
+	SolverField field(9, 9);
+	
+	setFieldMatrix(field,
+		0 ,  M ,  0 ,  M ,  0 ,  M ,  0 ,  0 ,  M ,
+		0 ,  0 ,  M ,  0 ,  0 ,  0 ,  M ,  M ,  M ,
+		0 ,  0 ,  M ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
+		M ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  M ,  0 ,
+		0 ,  0 ,  0 ,  0 , (0),  0 ,  M ,  0 ,  M ,
+		0 ,  M ,  0 ,  0 ,  0 ,  0 ,  0 ,  M ,  M ,
+		0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
+		0 ,  M ,  0 ,  M ,  0 ,  0 ,  0 ,  M ,  0 ,
+		M ,  M ,  0 ,  M ,  M ,  M ,  0 ,  0 ,  0 );
+	
+	field.solve(field.getCell(4, 4), 4, 4);
+	
+	assertEquals(0, field.getPending());
+	assertEquals(0, field.countUnknownCells());
+}
+
+void testUnsolvable() {
+	SolverField field(9, 9);
+	
+	setFieldMatrix(field,
+		0 ,  M ,  0 ,  M ,  0 ,  0 ,  M , (0), (M),
+		0 ,  0 ,  M ,  0 ,  0 ,  M ,  M ,  0 ,  M ,
+		0 ,  0 ,  0 ,  M ,  0 ,  0 ,  0 ,  0 ,  M ,
+		M ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
+		0 ,  0 ,  0 ,  0 , (0),  0 ,  M ,  0 ,  M ,
+		0 ,  M ,  0 ,  0 ,  0 ,  0 ,  0 ,  M ,  0 ,
+		0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  M ,  0 ,  0 ,
+		0 ,  M ,  0 ,  M ,  M ,  0 ,  0 ,  0 ,  M ,
+		M ,  M , (0), (M),  M ,  0 ,  0 ,  0 ,  0 );
+	
+	field.solve(field.getCell(4, 4), 4, 4);
+	
+	assertEquals(2, field.getPending());
+	assertEquals(4, field.countUnknownCells());
 }

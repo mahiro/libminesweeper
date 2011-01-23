@@ -7,12 +7,18 @@ namespace minesweeper {
 		
 		class Result {
 			private:
+				const SolverField & field;
 				const BipartiteCells input;
 				const BipartiteCells output;
 				const bool backward;
 				
 			public:
-				explicit Result(bool _backward) : backward(_backward) {}
+				explicit Result(const SolverField & _field, bool _backward) :
+						field(_field), backward(_backward) {}
+				
+				const SolverField & getField() const {
+					return field;
+				}
 				
 				const BipartiteCells & getInput() const {
 					return input;

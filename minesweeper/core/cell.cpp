@@ -21,7 +21,7 @@ namespace minesweeper {
 					(*adj)->rest++;
 				}
 			} else {
-				field.pending++;
+				field.pending--;
 			}
 			
 			return true;
@@ -41,7 +41,7 @@ namespace minesweeper {
 					(*adj)->rest--;
 				}
 			} else {
-				field.pending--;
+				field.pending++;
 			}
 			
 			return true;

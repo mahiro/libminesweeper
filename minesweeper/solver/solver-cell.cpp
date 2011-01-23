@@ -7,10 +7,10 @@ namespace minesweeper {
 				if (!hasFlag() && !hasMine()) {
 					dynamic_cast<const SolverField &>(field).addFrontierCell(*this);
 					dynamic_cast<const SolverField &>(field).removeUnknownCell(*this);
-				}
-				
-				for (AdjIter adj = begin(); adj != end(); adj++) {
-					dynamic_cast<const SolverCell &>(**adj).decrUnknowns();
+					
+					for (AdjIter adj = begin(); adj != end(); adj++) {
+						dynamic_cast<const SolverCell &>(**adj).decrUnknowns();
+					}
 				}
 				
 				return true;
@@ -24,10 +24,10 @@ namespace minesweeper {
 				if (!hasFlag() && !hasMine()) {
 					dynamic_cast<const SolverField &>(field).removeFrontierCell(*this);
 					dynamic_cast<const SolverField &>(field).addUnknownCell(*this);
-				}
-				
-				for (AdjIter adj = begin(); adj != end(); adj++) {
-					dynamic_cast<const SolverCell &>(**adj).incrUnknowns();
+					
+					for (AdjIter adj = begin(); adj != end(); adj++) {
+						dynamic_cast<const SolverCell &>(**adj).incrUnknowns();
+					}
 				}
 				
 				return true;
@@ -40,10 +40,10 @@ namespace minesweeper {
 			if (Cell::setFlag()) {
 				if (isCovered()) {
 					dynamic_cast<const SolverField &>(field).removeUnknownCell(*this);
-				}
-				
-				for (AdjIter adj = begin(); adj != end(); adj++) {
-					dynamic_cast<const SolverCell &>(**adj).decrUnknowns();
+					
+					for (AdjIter adj = begin(); adj != end(); adj++) {
+						dynamic_cast<const SolverCell &>(**adj).decrUnknowns();
+					}
 				}
 				
 				return true;
@@ -56,10 +56,10 @@ namespace minesweeper {
 			if (Cell::unsetFlag()) {
 				if (isCovered()) {
 					dynamic_cast<const SolverField &>(field).addUnknownCell(*this);
-				}
-				
-				for (AdjIter adj = begin(); adj != end(); adj++) {
-					dynamic_cast<const SolverCell &>(**adj).incrUnknowns();
+					
+					for (AdjIter adj = begin(); adj != end(); adj++) {
+						dynamic_cast<const SolverCell &>(**adj).incrUnknowns();
+					}
 				}
 				
 				return true;

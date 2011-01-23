@@ -15,4 +15,13 @@ void testSearchMultiple_Depth4_1();
 void testSearchMultiple_Depth4_2();
 void testSearchMultiple_Depth5_1();
 
+void testBackward_Depth1_1();
+void testBackward_Depth1_2();
+void testBackward_Depth2_1();
+void testBackward_Depth2_2();
+void testBackward_Depth3_1();
+
+void testSolvable();
+void testUnsolvable();
+
 #endif

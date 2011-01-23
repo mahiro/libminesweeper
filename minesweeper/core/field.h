@@ -117,11 +117,9 @@ namespace minesweeper {
 				FieldIter begin() const;
 				const FieldIter & end() const;
 				
-				// Others
-				void print() const;
-				void print(std::ostream & out) const;
-				
 		};
+		
+		std::ostream & operator << (std::ostream & out, const Field & field);
 	}
 }
 

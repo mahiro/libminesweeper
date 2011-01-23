@@ -19,12 +19,14 @@ namespace minesweeper {
 			incrSuspectAround(redCell);
 			decrSuspectAround(blueCell);
 			
-			int diff = redCell.getRest() - blueCell.getRest();
-			
-			if (diff == positives) {
-				setResultDouble(redCell, blueCell, true);
-			} else if (diff == negatives) {
-				setResultDouble(blueCell, redCell, false);
+			if (positives > 0 || negatives < 0) {
+				int diff = redCell.getRest() - blueCell.getRest();
+				
+				if (diff == positives) {
+					setResultDouble(redCell, blueCell, true);
+				} else if (diff == negatives) {
+					setResultDouble(blueCell, redCell, false);
+				}
 			}
 			
 			decrSuspectAround(redCell);
@@ -33,16 +35,22 @@ namespace minesweeper {
 			return searcher.hasResult();
 		}
 		
-		bool SuspectState::suspectMultiple(const CellSet & redCells, const CellSet & blueCells) const {
+		bool SuspectState::suspectMultiple(const CellSet & redCells, const CellSet & blueCells, bool backward) const {
 			incrSuspectAround(redCells);
 			decrSuspectAround(blueCells);
 			
-			int diff = sumRest(redCells) - sumRest(blueCells);
+			int negativesAdjusted = negatives -
+					(backward ? searcher.getField().countUnknownCells() : 0);
 			
-			if (diff == positives) {
-				setResultMultiple(redCells, blueCells, true);
-			} else if (diff == negatives) {
-				setResultMultiple(blueCells, redCells, false);
+			if (positives > 0 || negativesAdjusted < 0) {
+				int diff = sumRest(redCells) - sumRest(blueCells) -
+						(backward ? searcher.getField().getRest() : 0);
+				
+				if (diff == positives) {
+					setResultMultiple(redCells, blueCells, true, backward);
+				} else if (diff == negativesAdjusted) {
+					setResultMultiple(blueCells, redCells, false, backward);
+				}
 			}
 			
 			decrSuspectAround(redCells);
@@ -129,8 +137,8 @@ namespace minesweeper {
 			collectOutput(output.getBlueCells(), blueCells, redCells, !forPositives);
 		}
 		
-		void SuspectState::setResultMultiple(const CellSet & redCells, const CellSet & blueCells, bool forRed) const {
-			const Result & result = searcher.setResultFound(false);
+		void SuspectState::setResultMultiple(const CellSet & redCells, const CellSet & blueCells, bool forRed, bool backward) const {
+			const Result & result = searcher.setResultFound(backward);
 			
 			for (CellSetIter it = redCells.begin(); it != redCells.end(); it++) {
 				result.getInputRedCells().insert(*it);
@@ -144,6 +152,26 @@ namespace minesweeper {
 			bool forPositives = forRed;
 			collectOutput(output.getRedCells(), redCells, blueCells, forPositives);
 			collectOutput(output.getBlueCells(), blueCells, redCells, !forPositives);
+			
+			if (backward) {
+				const SolverField & field = searcher.getField();
+				const CellSet & unknownCells = field.getUnknownCells();
+				
+				CellSet excludedCells;
+				collectUnknownsAround(excludedCells, redCells);
+				collectUnknownsAround(excludedCells, blueCells);
+				
+				bool fieldForRed = !forRed;
+				CellSet & outputCells = output.getRedOrBlueCells(fieldForRed);
+				
+				for (CellSetIter it = unknownCells.begin(); it != unknownCells.end(); it++) {
+					if (dynamic_cast<const SolverCell *>(*it)->suspect < offset
+							&& (*it)->hasMine() == fieldForRed && excludedCells.find(*it) == excludedCells.end()
+							&& redCells.find(*it) == redCells.end() && blueCells.find(*it) == blueCells.end()) {
+						outputCells.insert(*it);
+					}
+				}
+			}
 		}
 		
 		void SuspectState::collectOutput(CellSet & outputCells,
@@ -162,6 +190,16 @@ namespace minesweeper {
 								outputCells.insert(*adj);
 							}
 						}
+					}
+				}
+			}
+		}
+		
+		void SuspectState::collectUnknownsAround(CellSet & outputCells, const CellSet & inputCells) const {
+			for (CellSetIter it = inputCells.begin(); it != inputCells.end(); it++) {
+				for (AdjIter adj = (*it)->begin(); adj != (*it)->end(); adj++) {
+					if ((*adj)->isUnknown()) {
+						outputCells.insert(*adj);
 					}
 				}
 			}

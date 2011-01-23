@@ -60,6 +60,15 @@ int main() {
 	testSearchMultiple_Depth4_2();
 	testSearchMultiple_Depth5_1();
 	
+	testBackward_Depth1_1();
+	testBackward_Depth1_2();
+	testBackward_Depth2_1();
+	testBackward_Depth2_2();
+	testBackward_Depth3_1();
+	
+	testSolvable();
+	testUnsolvable();
+	
 	printTestResults();
 	return 0;
 }
