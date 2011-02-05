@@ -53,7 +53,7 @@ namespace minesweeper {
 			}
 		}
 		
-		void Field::setupRandomMines(int numMines, const Cell & startCell, int dist) const {
+		void Field::setupRandom(const Cell & startCell, int numMines, int dist) const {
 			const Cell ** cells = new const Cell *[width * height];
 			
 			// Collect eligible cells

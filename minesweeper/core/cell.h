@@ -65,10 +65,14 @@ namespace minesweeper {
 				mutable unsigned int state;
 				mutable int number, rest;
 				
-			private:
 				virtual void clear() const {
 					state = COVERED;
 					number = rest = 0;
+				}
+				
+				virtual void reset() const {
+					cover();
+					unsetFlag();
 				}
 				
 			public:
@@ -145,11 +149,6 @@ namespace minesweeper {
 				virtual bool unsetMark() const;
 				virtual bool dig() const;
 				virtual bool digAround() const;
-				
-				virtual void reset() const {
-					cover();
-					unsetFlag();
-				}
 				
 				// Iterators
 				AdjIter begin(int dist = 1) const;

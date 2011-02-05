@@ -25,7 +25,7 @@ namespace minesweeper {
 				
 			protected:
 				virtual void clearUnknowns() const;
-				virtual void handleResult(const Result & result) const;
+				virtual void handleResult(const Searcher & searcher) const;
 				
 			public:
 				explicit SolverField(int _width, int _height, bool _init = true) :
@@ -36,8 +36,18 @@ namespace minesweeper {
 					}
 				}
 				
+				virtual ~SolverField() {}
+				
+				virtual void clearCells() const {
+					Field::clearCells();
+					clearUnknowns();
+				}
+				
+				virtual void resetCells() const {
+					Field::resetCells();
+				}
+				
 				virtual const Cell * createCell(int x, int y) const;
-				virtual void clearCells() const;
 				int countUnknownCells() const;
 				int countFrontierCells() const;
 				const CellSet & getUnknownCells() const;

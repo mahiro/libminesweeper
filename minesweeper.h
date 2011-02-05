@@ -3,5 +3,6 @@
 
 #include "minesweeper/core.h"
 #include "minesweeper/solver.h"
+#include "minesweeper/generator.h"
 
 #endif

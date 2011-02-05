@@ -9,11 +9,6 @@ namespace minesweeper {
 			return new SolverCell(*this, x, y);
 		}
 		
-		void SolverField::clearCells() const {
-			Field::clearCells();
-			clearUnknowns();
-		}
-		
 		void SolverField::clearUnknowns() const {
 			unknownCells.clear();
 			frontierCells.clear();
@@ -68,17 +63,20 @@ namespace minesweeper {
 			return frontierCells;
 		}
 		
-		void SolverField::handleResult(const Result & result) const {
-			const CellSet & redCells = result.getOutputRedCells();
-			
-			for (CellSetIter it = redCells.begin(); it != redCells.end(); it++) {
-				(*it)->setFlag();
-			}
-			
-			const CellSet & blueCells = result.getOutputBlueCells();
-			
-			for (CellSetIter it = blueCells.begin(); it != blueCells.end(); it++) {
-				(*it)->uncover();
+		void SolverField::handleResult(const Searcher & searcher) const {
+			if (searcher.hasResult()) {
+				const Result & result = searcher.getResult();
+				const CellSet & redCells = result.getOutputRedCells();
+				
+				for (CellSetIter it = redCells.begin(); it != redCells.end(); it++) {
+					(*it)->setFlag();
+				}
+				
+				const CellSet & blueCells = result.getOutputBlueCells();
+				
+				for (CellSetIter it = blueCells.begin(); it != blueCells.end(); it++) {
+					(*it)->uncover();
+				}
 			}
 		}
 		
@@ -108,7 +106,7 @@ namespace minesweeper {
 				}
 				
 				if (searcher.hasResult()) {
-					handleResult(searcher.getResult());
+					handleResult(searcher);
 					
 					int unknowns = countUnknownCells();
 					

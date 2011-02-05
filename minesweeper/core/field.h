@@ -111,7 +111,7 @@ namespace minesweeper {
 				}
 				
 				// Setters
-				void setupRandomMines(int numMines, const Cell & startCell, int dist) const;
+				void setupRandom(const Cell & startCell, int numMines, int dist) const;
 				
 				// Iterators
 				FieldIter begin() const;

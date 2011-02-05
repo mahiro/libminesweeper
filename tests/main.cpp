@@ -3,6 +3,7 @@
 #include "core-test.h"
 #include "combination-test.h"
 #include "solver-test.h"
+#include "generator-test.h"
 
 void printLine() {
 	for (int i = 0; i < 78; i++) {
@@ -68,6 +69,8 @@ int main() {
 	
 	testSolvable();
 	testUnsolvable();
+	
+	testGenerate();
 	
 	printTestResults();
 	return 0;

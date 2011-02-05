@@ -28,6 +28,18 @@ namespace minesweeper {
 					}
 				}
 				
+			protected:
+				virtual void clear() const {
+					Cell::clear();
+					numUnknowns = 0;
+					suspect = 0;
+				}
+				
+				virtual void reset() const {
+					Cell::reset();
+					suspect = 0;
+				}
+				
 			public:
 				enum State {
 					FRONTIER = 0x10

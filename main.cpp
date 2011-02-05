@@ -8,9 +8,9 @@ int main() {
 	SolverField field(15, 15);
 	const Cell & startCell = field.getCell(5, 5);
 	
-	field.setupRandomMines(45, startCell, 1);
+	field.setupRandom(45, startCell, 1);
 	startCell.dig();
-	field.print();
+	std::cout << field << std::endl;
 	
 	return 0;
 }

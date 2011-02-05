@@ -66,6 +66,16 @@ namespace minesweeper {
 					return *result;
 				}
 				
+				const Result * detachResult() const {
+					if (result) {
+						Result * tmp = result;
+						result = 0;
+						return tmp;
+					} else {
+						return 0;
+					}
+				}
+				
 				void resetResult() const {
 					if (result) {
 						delete result;
