@@ -6,7 +6,7 @@ using namespace minesweeper::core;
 using namespace minesweeper::generator;
 
 void testGenerate() {
-	int sizes[] = {5, 15, 25};
+	int sizes[] = {5, 15, 25, 35, 45};
 	int rates[] = {5, 15, 25, 50, 90};
 	
 	for (std::size_t i = 0; i < sizeof(sizes) / sizeof(sizes[0]); i++) {
