@@ -11,7 +11,7 @@ void printSet(const std::set<std::string> & s);
 void printSetSet(const std::set<std::set<std::string> > & ss);
 void printVector(const std::vector<std::string> & s);
 
-bool _testCombinationsInternal(const char *filename, int lineno, const std::vector<std::string> & input, int minK, int maxK, ...);
+bool _testCombinationsInternal(const char *filename, int lineno, const std::vector<std::string> & input, int minK, int maxK, int numArgs, ...);
 bool _assertCombinationEquals(const char *filename, int lineno, std::set<std::set<std::string> > & expected, const std::set<std::set<std::string> > & actual);
 
 #define testCombinationsInternal(_input, _minK, _maxK, ...) \

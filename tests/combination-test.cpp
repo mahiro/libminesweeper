@@ -22,7 +22,7 @@ using namespace std;
 
 void testCombinations() {
 	// Input
-	char * ary[] = {"A", "B", "C", "D", "E"};
+	const char * ary[] = {"A", "B", "C", "D", "E"};
 	vector<string> input(ary, ary + 5);
 	
 	// Comb with length = 0
@@ -32,7 +32,7 @@ void testCombinations() {
 	
 	// Comb with length = 1
 	vector< vector<string> > comb1; {
-		char * ary[][1] = {
+		const char * ary[][1] = {
 				{"A"}, {"B"}, {"C"}, {"D"}, {"E"},
 		};
 		
@@ -41,7 +41,7 @@ void testCombinations() {
 	
 	// Comb with length = 2
 	vector< vector<string> > comb2; {
-		char * ary[][2] = {
+		const char * ary[][2] = {
 				{"A", "B"}, {"A", "C"}, {"A", "D"}, {"A", "E"},
 				            {"B", "C"}, {"B", "D"}, {"B", "E"},
 				                        {"C", "D"}, {"C", "E"},
@@ -53,7 +53,7 @@ void testCombinations() {
 	
 	// Comb with length = 3
 	vector< vector<string> > comb3; {
-		char * ary[][3] = {
+		const char * ary[][3] = {
 				{"A", "B", "C"}, {"A", "B", "D"}, {"A", "B", "E"},
 				                 {"A", "C", "D"}, {"A", "C", "E"},
 				                                  {"A", "D", "E"},
@@ -67,7 +67,7 @@ void testCombinations() {
 	
 	// Comb with length = 4
 	vector< vector<string> > comb4; {
-		char * ary[][4] = {
+		const char * ary[][4] = {
 				{"A", "B", "C", "D"}, {"A", "B", "C", "E"},
 				                      {"A", "B", "D", "E"},
 				                      {"A", "C", "D", "E"},
@@ -79,27 +79,27 @@ void testCombinations() {
 	
 	// Comb with length = 5
 	vector< vector<string> > comb5; {
-		char * ary[][5] = {
+		const char * ary[][5] = {
 				{"A", "B", "C", "D", "E"},
 		};
 		
 		setupVector(comb5, ary);
 	}
 	
-	testCombinationsInternal(input, 0, 0, &comb0, 0);
-	testCombinationsInternal(input, 1, 1, &comb1, 0);
-	testCombinationsInternal(input, 2, 2, &comb2, 0);
-	testCombinationsInternal(input, 3, 3, &comb3, 0);
-	testCombinationsInternal(input, 4, 4, &comb4, 0);
-	testCombinationsInternal(input, 5, 5, &comb5, 0);
+	testCombinationsInternal(input, 0, 0, 1, &comb0);
+	testCombinationsInternal(input, 1, 1, 1, &comb1);
+	testCombinationsInternal(input, 2, 2, 1, &comb2);
+	testCombinationsInternal(input, 3, 3, 1, &comb3);
+	testCombinationsInternal(input, 4, 4, 1, &comb4);
+	testCombinationsInternal(input, 5, 5, 1, &comb5);
 	testCombinationsInternal(input, 6, 6, 0);
 	
-	testCombinationsInternal(input, 0, 3, &comb0, &comb1, &comb2, &comb3, 0);
-	testCombinationsInternal(input, 1, 4, &comb1, &comb2, &comb3, &comb4, 0);
-	testCombinationsInternal(input, 2, 5, &comb2, &comb3, &comb4, &comb5, 0);
-	testCombinationsInternal(input, 3, 6, &comb3, &comb4, &comb5, 0);
-	testCombinationsInternal(input, 4, 7, &comb4, &comb5, 0);
-	testCombinationsInternal(input, 5, 8, &comb5, 0);
+	testCombinationsInternal(input, 0, 3, 4, &comb0, &comb1, &comb2, &comb3);
+	testCombinationsInternal(input, 1, 4, 4, &comb1, &comb2, &comb3, &comb4);
+	testCombinationsInternal(input, 2, 5, 4, &comb2, &comb3, &comb4, &comb5);
+	testCombinationsInternal(input, 3, 6, 3, &comb3, &comb4, &comb5);
+	testCombinationsInternal(input, 4, 7, 2, &comb4, &comb5);
+	testCombinationsInternal(input, 5, 8, 1, &comb5);
 	testCombinationsInternal(input, 6, 9, 0);
 }
 
@@ -192,15 +192,16 @@ bool _assertCombinationEquals(const char *filename, int lineno,
 }
 
 bool _testCombinationsInternal(const char *filename, int lineno,
-		const vector<string> & input, int minK, int maxK, ...) {
+		const vector<string> & input, int minK, int maxK, int numArgs, ...) {
 	// Make expected set
 	set<set<string> > expectedSet;
 	
 	va_list ap;
-	va_start(ap, maxK);
-	vector<vector<string> > * psubsets;
+	va_start(ap, numArgs);
 	
-	while (psubsets = va_arg(ap, vector< vector<string> > *)) {
+	for (int i = 0; i < numArgs; i++) {
+		vector<vector<string> > * psubsets = va_arg(ap, vector< vector<string> > *);
+		
 		for (vector< vector<string> >::iterator it = psubsets->begin();
 				it != psubsets->end(); it++) {
 			vector<string> subset = *it;
