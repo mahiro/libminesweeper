@@ -82,11 +82,11 @@ all: bin/cppmines.exe bin/cppmines-tests.exe
 
 bin/cppmines.exe: $obj_list
 	mkdir -p bin
-	g++ -Wall -o\$\@ $obj_list
+	g++ -Wall -o \$\@ $obj_list
 
 bin/cppmines-tests.exe: $tests_obj_list
 	mkdir -p bin
-	g++ -Wall -o\$\@ $tests_obj_list
+	g++ -Wall -o \$\@ $tests_obj_list
 
 END
 
@@ -105,7 +105,7 @@ for my $c_file (@c_files) {
 	print OUT <<END;
 $obj_path: $c_path $h_list
 	mkdir -p $obj_parent
-	g++ -c -Wall -o\$\@ $c_path
+	g++ -c -Wall -o \$\@ $c_path
 
 END
 }
