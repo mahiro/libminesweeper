@@ -105,7 +105,7 @@ for my $c_file (@c_files) {
 	print OUT <<END;
 $obj_path: $c_path $h_list
 	mkdir -p $obj_parent
-	g++ -c -Wall -o \$\@ $c_path
+	g++ -c -fast -Wall -o \$\@ $c_path
 
 END
 }
