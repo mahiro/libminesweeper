@@ -145,23 +145,18 @@ namespace minesweeper {
 				
 				if (number == 0 && !hasMine()) {
 					std::queue<const Cell *> q;
-					const Cell * pc = this;
+					q.push(this);
 					
-					for (;;) {
-						for (AdjIter adj = pc->begin(); adj != pc->end(); adj++) {
+					for (const Cell * ptr = q.front(); !q.empty(); ptr = q.front()) {
+						q.pop();
+						
+						for (AdjIter adj = ptr->begin(); adj != ptr->end(); adj++) {
 							if (!(*adj)->hasFlag() && (*adj)->uncover()) {
 								if ((*adj)->number == 0 && !(*adj)->hasMine()) {
 									q.push(*adj);
 								}
 							}
 						}
-						
-						if (q.empty()) {
-							break;
-						}
-						
-						pc = q.front();
-						q.pop();
 					}
 				}
 			}

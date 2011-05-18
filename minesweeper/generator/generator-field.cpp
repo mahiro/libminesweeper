@@ -8,8 +8,6 @@ namespace minesweeper {
 		using namespace minesweeper::core;
 		using namespace minesweeper::solver;
 		
-using namespace std;
-		
 		const Cell * GeneratorField::createCell(int x, int y) const {
 			return new GeneratorCell(*this, x, y);
 		}
@@ -29,8 +27,8 @@ using namespace std;
 		}
 		
 		void GeneratorField::makeSolvable(const Cell & startCell, int maxForwardDepth, int maxBackwardDepth) const {
-			int forwardDepth = min(4, maxForwardDepth);
-			int backwardDepth = min(3, maxBackwardDepth);
+			int forwardDepth = std::min(4, maxForwardDepth);
+			int backwardDepth = std::min(3, maxBackwardDepth);
 			bool fast = true;
 			
 			int prevSolve = countUnknownCells();
@@ -38,8 +36,8 @@ using namespace std;
 			
 			for (retry = 0; ; retry++) {
 				if (retry == 4) {
-					forwardDepth = min(3, maxForwardDepth);
-					backwardDepth = min(2, maxBackwardDepth);
+					forwardDepth = std::min(3, maxForwardDepth);
+					backwardDepth = std::min(2, maxBackwardDepth);
 				}
 				
 				solve(startCell, forwardDepth, backwardDepth, fast);
