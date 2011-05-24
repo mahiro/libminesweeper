@@ -24,6 +24,7 @@ namespace minesweeper {
 				field.pending--;
 			}
 			
+			handleUpdate();
 			return true;
 		}
 		
@@ -44,6 +45,7 @@ namespace minesweeper {
 				field.pending++;
 			}
 			
+			handleUpdate();
 			return true;
 		}
 		
@@ -65,6 +67,7 @@ namespace minesweeper {
 				(*adj)->rest++;
 			}
 			
+			handleUpdate();
 			return true;
 		}
 		
@@ -86,6 +89,7 @@ namespace minesweeper {
 				(*adj)->rest--;
 			}
 			
+			handleUpdate();
 			return true;
 		}
 		
@@ -101,6 +105,7 @@ namespace minesweeper {
 				(*adj)->rest--;
 			}
 			
+			handleUpdate();
 			return true;
 		}
 		
@@ -116,6 +121,7 @@ namespace minesweeper {
 				(*adj)->rest++;
 			}
 			
+			handleUpdate();
 			return true;
 		}
 		
@@ -125,6 +131,8 @@ namespace minesweeper {
 			}
 			
 			state |= MARK;
+			
+			handleUpdate();
 			return true;
 		}
 		
@@ -134,6 +142,8 @@ namespace minesweeper {
 			}
 			
 			state &= ~MARK;
+			
+			handleUpdate();
 			return true;
 		}
 		

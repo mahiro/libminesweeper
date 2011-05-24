@@ -150,6 +150,9 @@ namespace minesweeper {
 				virtual bool dig() const;
 				virtual bool digAround() const;
 				
+				// Event handler
+				virtual void handleUpdate() const {}
+				
 				// Iterators
 				AdjIter begin(int dist = 1) const;
 				const AdjIter & end() const;
