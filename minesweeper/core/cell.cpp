@@ -14,13 +14,7 @@ namespace minesweeper {
 			
 			state &= ~COVERED;
 			
-			if (hasMine()) {
-				field.rest++;
-				
-				for (AdjIter adj = begin(); adj != end(); adj++) {
-					(*adj)->rest++;
-				}
-			} else {
+			if (!hasMine()) {
 				field.pending--;
 			}
 			
@@ -35,13 +29,7 @@ namespace minesweeper {
 			
 			state |= COVERED;
 			
-			if (hasMine()) {
-				field.rest--;
-				
-				for (AdjIter adj = begin(); adj != end(); adj++) {
-					(*adj)->rest--;
-				}
-			} else {
+			if (!hasMine()) {
 				field.pending++;
 			}
 			
