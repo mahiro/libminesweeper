@@ -1,11 +1,11 @@
 all:
-	make -C.. all
+    make -C.. all
 
 run:
-	make -C.. run
+    make -C.. run
 
 test:
-	make -C.. test
+    make -C.. test
 
 clean:
-	make -C.. clean
+    make -C.. clean

@@ -5,16 +5,16 @@
 #include "../solver/common.h"
 
 namespace minesweeper {
-	namespace generator {
-		using namespace minesweeper::core;
-		using namespace minesweeper::solver;
-		
-		class GeneratorField;
-		class GeneratorCell;
-		
-		class RecordState;
-		class Swapper;
-	}
+    namespace generator {
+        using namespace minesweeper::core;
+        using namespace minesweeper::solver;
+        
+        class GeneratorField;
+        class GeneratorCell;
+        
+        class RecordState;
+        class Swapper;
+    }
 }
 
 #endif

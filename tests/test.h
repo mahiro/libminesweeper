@@ -31,19 +31,19 @@ void setFieldMatrix(const minesweeper::core::Field & field, ...);
 bool _assertEquals(const char *filename, int lineno, int expected, int actual);
 
 bool _assertFieldMatrix(const char *filename, int lineno,
-		const minesweeper::core::Field & field,
-		int (*func)(const minesweeper::core::Cell &), ...);
+        const minesweeper::core::Field & field,
+        int (*func)(const minesweeper::core::Cell &), ...);
 
 #define assertFieldMatrix(_field, _func, ...) \
-	_assertFieldMatrix(__FILE__, __LINE__, (_field), (_func), __VA_ARGS__)
+    _assertFieldMatrix(__FILE__, __LINE__, (_field), (_func), __VA_ARGS__)
 
 #define assertEquals(_expected, _actual) \
-	_assertEquals(__FILE__, __LINE__, (_expected), (_actual))
+    _assertEquals(__FILE__, __LINE__, (_expected), (_actual))
 
 #define assertTrue(_actual) \
-	_assertEquals(__FILE__, __LINE__, true, (_actual))
+    _assertEquals(__FILE__, __LINE__, true, (_actual))
 
 #define assertFalse(_actual) \
-	_assertEquals(__FILE__, __LINE__, false, (_actual))
+    _assertEquals(__FILE__, __LINE__, false, (_actual))
 
 #endif

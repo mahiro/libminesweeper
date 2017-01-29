@@ -6,22 +6,22 @@
 #include <set>
 
 namespace minesweeper {
-	namespace solver {
-		using namespace minesweeper::core;
-		
-		class SolverField;
-		class SolverCell;
-		class BipartiteCells;
-		class Searcher;
-		class SuspectState;
-		class Result;
-		
-		template <typename T>
-		class CombinationGenerator;
-		
-		typedef std::set<const Cell *> CellSet;
-		typedef std::set<const Cell *>::const_iterator CellSetIter;
-	}
+    namespace solver {
+        using namespace minesweeper::core;
+        
+        class SolverField;
+        class SolverCell;
+        class BipartiteCells;
+        class Searcher;
+        class SuspectState;
+        class Result;
+        
+        template <typename T>
+        class CombinationGenerator;
+        
+        typedef std::set<const Cell *> CellSet;
+        typedef std::set<const Cell *>::const_iterator CellSetIter;
+    }
 }
 
 #endif

@@ -15,9 +15,9 @@ bool _testCombinationsInternal(const char *filename, int lineno, const std::vect
 bool _assertCombinationEquals(const char *filename, int lineno, std::set<std::set<std::string> > & expected, const std::set<std::set<std::string> > & actual);
 
 #define testCombinationsInternal(_input, _minK, _maxK, ...) \
-	_testCombinationsInternal(__FILE__, __LINE__, (_input), (_minK), (_maxK), __VA_ARGS__)
+    _testCombinationsInternal(__FILE__, __LINE__, (_input), (_minK), (_maxK), __VA_ARGS__)
 
 #define assertCombinationEquals(_expected, _actual) \
-	_assertCombinationEquals(__FILE__, __LINE__, (_expected), (_actual))
+    _assertCombinationEquals(__FILE__, __LINE__, (_expected), (_actual))
 
 #endif

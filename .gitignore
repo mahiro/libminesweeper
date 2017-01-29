@@ -2,3 +2,4 @@ git-bash.lnk
 /bin/
 /obj/
 *.stackdump
+Makefile
