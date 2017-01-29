@@ -74,17 +74,19 @@ my $tests_obj_list = join ' ', map {
     get_obj_file($_)
 } grep {get_rel_path($_) ne 'main.cpp'} @c_files;
 
+my $exe = $^O eq 'MSWin32' ? '.exe' : '';
+
 open OUT, ">$FindBin::Bin/Makefile" or die "Makefile: $!";
 binmode(OUT);
 
 print OUT <<END;
-all: bin/cppmines.exe bin/cppmines-tests.exe
+all: bin/minesweeper$exe bin/minesweeper-tests$exe
 
-bin/cppmines.exe: $obj_list
+bin/minesweeper$exe: $obj_list
 	mkdir -p bin
 	g++ -Wall -o \$\@ $obj_list
 
-bin/cppmines-tests.exe: $tests_obj_list
+bin/minesweeper-tests$exe: $tests_obj_list
 	mkdir -p bin
 	g++ -Wall -o \$\@ $tests_obj_list
 
@@ -111,11 +113,11 @@ END
 }
 
 print OUT <<END;
-run: bin/cppmines.exe
-	bin/cppmines.exe
+run: bin/minesweeper$exe
+	bin/minesweeper$exe
 
-test: bin/cppmines-tests.exe
-	bin/cppmines-tests.exe
+test: bin/minesweeper-tests$exe
+	bin/minesweeper-tests$exe
 
 clean:
 	rm -rf bin obj
