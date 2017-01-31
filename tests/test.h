@@ -1,7 +1,7 @@
 #ifndef _TESTS_TEST_H_
 #define _TESTS_TEST_H_
 
-#include "../minesweeper.h"
+#include "../src/minesweeper.h"
 
 #define C minesweeper::core::Cell::COVERED
 #define M minesweeper::core::Cell::MINE
@@ -26,7 +26,7 @@ int getCellNumber(const minesweeper::core::Cell & cell);
 int getCellRest(const minesweeper::core::Cell & cell);
 int getCellCovered(const minesweeper::core::Cell & cell);
 int getCellUnknown(const minesweeper::core::Cell & cell);
-void setFieldMatrix(const minesweeper::core::Field & field, ...);
+void setFieldMatrix(const minesweeper::core::Field * field, ...);
 
 bool _assertEquals(const char *filename, int lineno, int expected, int actual);
 

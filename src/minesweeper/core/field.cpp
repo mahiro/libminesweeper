@@ -32,10 +32,10 @@ namespace minesweeper {
                     delete cells[y][x];
                 }
                 
-                delete cells[y];
+                delete[] cells[y];
             }
             
-            delete cells;
+            delete[] cells;
         }
         
         void Field::clearCells() const {
@@ -83,7 +83,7 @@ namespace minesweeper {
                 cells[i]->setMine();
             }
             
-            delete cells;
+            delete[] cells;
         }
         
         FieldIter Field::begin() const {

@@ -1,11 +1,11 @@
-#include "../minesweeper.h"
+#include "../src/minesweeper.h"
 #include "test.h"
 #include "core-test.h"
 
 void testCells() {
     minesweeper::core::Field field(4, 4);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         0, M, 0, 0,
         0, 0, M, 0,
         M, 0, 0, M,
@@ -17,7 +17,7 @@ void testCells() {
         1, 3, 4, 2,
         2, 1, 3, 1);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         0, 0, 0, 0,
         0, 0, F, 0,
         F, 0, 0, 0,
@@ -29,7 +29,7 @@ void testCells() {
         1, 1, 2, 0,
         1, 0, 2, 1);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         0,  0,  0, 0,
         0, -C,  0, 0,
         0, -C, -C, 0,
@@ -45,7 +45,7 @@ void testCells() {
 void testDig() {
     minesweeper::core::Field field(5, 5);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         (0),  0 ,  M ,  M ,  0 ,
         (0),  0 ,  0 ,  0 ,  M ,
         (0), (0), (0),  0 ,  0 ,
@@ -65,7 +65,7 @@ void testDig() {
 void testDigWithFlags() {
     minesweeper::core::Field field(5, 5);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         (0),  0 , M|F,  M ,  0 ,
         (0),  F ,  0 ,  0 , M|F,
         (F), (0), (0),  0 ,  0 ,

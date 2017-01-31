@@ -1,4 +1,4 @@
-#include "../minesweeper.h"
+#include "../src/minesweeper.h"
 #include "test.h"
 #include "solver-test.h"
 
@@ -22,7 +22,7 @@ static int getCellResult(const Cell & cell) {
 void testSearchSingle_1() {
     SolverField field(3, 3);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
          U , (M),  U,
         (M), (U),  U,
          U ,  U , (M));
@@ -41,7 +41,7 @@ void testSearchSingle_1() {
 void testSearchSingle_2() {
     SolverField field(3, 3);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         (0), M|F, (0),
         M|F, (U), (0),
         (0), (0), M|F);
@@ -60,7 +60,7 @@ void testSearchSingle_2() {
 void testSearchDouble_1() {
     SolverField field(4, 3);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         (M),  0 ,  M , (0),
         M|F, (U), (U), M|F,
          U ,  U ,  U ,  U );
@@ -79,7 +79,7 @@ void testSearchDouble_1() {
 void testSearchDouble_2() {
     SolverField field(4, 3);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         (0),  M ,  0 , (M),
         (0), (U), (U), (M),
         (0),  0 ,  0 , (M));
@@ -98,7 +98,7 @@ void testSearchDouble_2() {
 void testSearchDouble_3() {
     SolverField field(5, 3);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         U , M|F, 0 , (0), (0),
         U , (U), M , (U), (0),
         U , M|F, 0 , (0), (0));
@@ -117,7 +117,7 @@ void testSearchDouble_3() {
 void testSearchMultiple_Depth3_1() {
     SolverField field(6, 4);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         U , M|F, (M),  0 ,  0 ,  M ,
         U , (U),  M ,  M ,  0 ,  U ,
         U , M|F,  0 , (U), (U),  U ,
@@ -138,7 +138,7 @@ void testSearchMultiple_Depth3_1() {
 void testSearchMultiple_Depth3_2() {
     SolverField field(6, 4);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         U , M|F, (M),  0 ,  0 ,  M ,
         U , (U),  M ,  M ,  0 ,  U ,
         U , M|F,  0 , (U), (U),  U ,
@@ -159,7 +159,7 @@ void testSearchMultiple_Depth3_2() {
 void testSearchMultiple_Depth3_3() {
     SolverField field(4, 4);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         (0),  M ,  0 , (M),
         M|F, (U), (U),  0 ,
          U ,  U , (U),  M ,
@@ -180,7 +180,7 @@ void testSearchMultiple_Depth3_3() {
 void testSearchMultiple_Depth4_1() {
     SolverField field(6, 6);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
          0 , (M), (M),  (M),  0 ,  0 ,
          0 , (M), (U),   0 , (0), (0),
         (0),  0 ,  0 ,   M , (U), (0),
@@ -205,7 +205,7 @@ void testSearchMultiple_Depth4_1() {
 void testSearchMultiple_Depth4_2() {
     SolverField field(6, 6);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
          0 ,  0 ,  0, (0), (0), (0),
          0 ,  0 ,  0, (0), (U), (0),
         (0), (0),  M,  0 ,  M , (0),
@@ -232,7 +232,7 @@ void testSearchMultiple_Depth4_2() {
 void testSearchMultiple_Depth5_1() {
     SolverField field(7, 7);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
          0 ,  0 ,  0 , (0), (0), (0),  0 ,
         (0), (0), (0), (0), (U), (0),  0 ,
         (0), (U),  0 ,  M ,  0 , (0),  0 ,
@@ -260,7 +260,7 @@ void testBackward_Depth1_1() {
     for (int i = 0; i < 2; i++) {
         SolverField field(4, 4);
         
-        setFieldMatrix(field,
+        setFieldMatrix(&field,
              U , M|F,  0 , (0),
             M|F, (U),  M , (0),
              0 ,  M ,  0 , (0),
@@ -284,7 +284,7 @@ void testBackward_Depth1_2() {
     for (int i = 0; i < 2; i++) {
         SolverField field(4, 4);
         
-        setFieldMatrix(field,
+        setFieldMatrix(&field,
              U , M|F,  0 , (M),
             M|F, (U),  M , (M),
              0 ,  M ,  0 , (M),
@@ -308,7 +308,7 @@ void testBackward_Depth2_1() {
     for (int i = 0; i < 2; i++) {
         SolverField field(4, 4);
         
-        setFieldMatrix(field,
+        setFieldMatrix(&field,
              M|F,  (U),  0 , (0),
              (U),   M ,  M , (0),
               0 ,   M , (0), (0),
@@ -332,7 +332,7 @@ void testBackward_Depth2_2() {
     for (int i = 0; i < 2; i++) {
         SolverField field(4, 4);
         
-        setFieldMatrix(field,
+        setFieldMatrix(&field,
             M|F, (U),  0 , (M),
             (U), (0),  M , (M),
              0 ,  M , (M), (M),
@@ -355,7 +355,7 @@ void testBackward_Depth2_2() {
 void testBackward_Depth3_1() {
     SolverField field(5, 4);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         (0), (0),  0 ,  M ,  0 ,
          0 ,  M ,  0 , (U), (0),
          0 , (U),  M , (U), (0),
@@ -377,7 +377,7 @@ void testBackward_Depth3_1() {
 void testSolvable() {
     SolverField field(9, 9);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         0 ,  M ,  0 ,  M ,  0 ,  M ,  0 ,  0 ,  M ,
         0 ,  0 ,  M ,  0 ,  0 ,  0 ,  M ,  M ,  M ,
         0 ,  0 ,  M ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
@@ -397,7 +397,7 @@ void testSolvable() {
 void testUnsolvable() {
     SolverField field(9, 9);
     
-    setFieldMatrix(field,
+    setFieldMatrix(&field,
         0 ,  M ,  0 ,  M ,  0 ,  0 ,  M , (0), (M),
         0 ,  0 ,  M ,  0 ,  0 ,  M ,  M ,  0 ,  M ,
         0 ,  0 ,  0 ,  M ,  0 ,  0 ,  0 ,  0 ,  M ,

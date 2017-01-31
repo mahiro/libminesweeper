@@ -1,4 +1,4 @@
-#include "../minesweeper.h"
+#include "../src/minesweeper.h"
 #include "test.h"
 #include "generator-test.h"
 

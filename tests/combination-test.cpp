@@ -1,6 +1,6 @@
 #include "test.h"
 #include "combination-test.h"
-#include "../minesweeper/solver/combination.h"
+#include "../src/minesweeper/solver/combination.h"
 
 #include <cstdarg>
 #include <iostream>

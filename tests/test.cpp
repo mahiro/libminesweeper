@@ -37,16 +37,16 @@ int getCellUnknown(const minesweeper::core::Cell & cell) {
     return cell.isUnknown() ? 1 : 0;
 }
 
-void setFieldMatrix(const minesweeper::core::Field & field, ...) {
+void setFieldMatrix(const minesweeper::core::Field * field, ...) {
     va_list ap;
     int x, y;
     
     va_start(ap, field);
     
-    for (y = 0; y < field.getHeight(); y++) {
-        for (x = 0; x < field.getWidth(); x++) {
+    for (y = 0; y < field->getHeight(); y++) {
+        for (x = 0; x < field->getWidth(); x++) {
             int state = va_arg(ap, int);
-            const minesweeper::core::Cell & cell = field.getCell(x, y);
+            const minesweeper::core::Cell & cell = field->getCell(x, y);
             int value = 1;
             
             if (state < 0) {
