@@ -1,7 +1,7 @@
 #ifndef _MINESWEEPER_GENERATOR_RECORD_STATE_H_
 #define _MINESWEEPER_GENERATOR_RECORD_STATE_H_
 
-#include "common.h"
+#include "generator.h"
 
 namespace minesweeper {
     namespace generator {

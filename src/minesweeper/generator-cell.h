@@ -1,10 +1,10 @@
 #ifndef _MINESWEEPER_GENERATOR_CELL_H_
 #define _MINESWEEPER_GENERATOR_CELL_H_
 
-#include "common.h"
-#include "../solver/solver-cell.h"
+#include "generator.h"
+#include "solver-cell.h"
 #include "generator-field.h"
-#include "record-state.h"
+#include "generator-record.h"
 
 namespace minesweeper {
     namespace generator {

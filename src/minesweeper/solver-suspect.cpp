@@ -1,5 +1,5 @@
-#include "suspect.h"
-#include "searcher.h"
+#include "solver-suspect.h"
+#include "solver-searcher.h"
 #include "solver-field.h"
 #include "solver-cell.h"
 

@@ -1,7 +1,7 @@
 #ifndef _MINESWEEPER_SOLVER_COMBINATION_H_
 #define _MINESWEEPER_SOLVER_COMBINATION_H_
 
-#include "common.h"
+#include "solver.h"
 #include <set>
 #include <vector>
 

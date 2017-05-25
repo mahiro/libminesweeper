@@ -1,7 +1,7 @@
 #ifndef _MINESWEEPER_CORE_FIELD_H_
 #define _MINESWEEPER_CORE_FIELD_H_
 
-#include "common.h"
+#include "core.h"
 #include <iostream>
 
 namespace minesweeper {

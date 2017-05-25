@@ -1,5 +1,5 @@
-#include "cell.h"
-#include "field.h"
+#include "core-cell.h"
+#include "core-field.h"
 #include <queue>
 
 namespace minesweeper {

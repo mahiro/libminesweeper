@@ -1,9 +1,9 @@
 #ifndef _MINESWEEPER_SOLVER_FIELD_H_
 #define _MINESWEEPER_SOLVER_FIELD_H_
 
-#include "common.h"
-#include "searcher.h"
-#include "result.h"
+#include "solver.h"
+#include "solver-searcher.h"
+#include "solver-result.h"
 
 #include <iostream>
 

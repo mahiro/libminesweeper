@@ -1,7 +1,7 @@
 #ifndef _MINESWEEPER_SOLVER_CELL_H_
 #define _MINESWEEPER_SOLVER_CELL_H_
 
-#include "common.h"
+#include "solver.h"
 #include "solver-field.h"
 
 namespace minesweeper {
@@ -16,17 +16,8 @@ namespace minesweeper {
                 mutable int numUnknowns;
                 mutable int suspect;
                 
-                void incrUnknowns() const {
-                    if (numUnknowns++ == 0) {
-                        dynamic_cast<const SolverField &>(field).addFrontierCell(*this);
-                    }
-                }
-                
-                void decrUnknowns() const {
-                    if (--numUnknowns == 0) {
-                        dynamic_cast<const SolverField &>(field).removeFrontierCell(*this);
-                    }
-                }
+                void incrUnknowns() const;
+                void decrUnknowns() const;
                 
             protected:
                 virtual void clear() const {

@@ -1,14 +1,18 @@
 #include "minesweeper.h"
 #include <iostream>
 
-int main() {
+int main(int argc, char * argv[]) {
     using namespace minesweeper::core;
     using namespace minesweeper::solver;
+    using namespace minesweeper::generator;
     
-    SolverField field(15, 15);
-    const Cell & startCell = field.getCell(5, 5);
+    int w = 15;
+    int h = 15;
+    GeneratorField field(w, h);
+    const Cell & startCell = field.getCell((w + 1) / 2, (h + 1) / 2);
     
-    field.setupRandom(startCell, 45, 1);
+    field.setupSolvable(startCell, 45, 4, 4);
+    field.resetCells();
     startCell.dig();
     std::cout << field << std::endl;
     

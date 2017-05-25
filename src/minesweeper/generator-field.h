@@ -1,9 +1,9 @@
 #ifndef _MINESWEEPER_GENERATOR_FIELD_H_
 #define _MINESWEEPER_GENERATOR_FIELD_H_
 
-#include "common.h"
-#include "../solver/solver-field.h"
-#include "record-state.h"
+#include "generator.h"
+#include "solver-field.h"
+#include "generator-record.h"
 
 #include <stack>
 

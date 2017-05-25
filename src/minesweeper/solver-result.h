@@ -1,6 +1,8 @@
 #ifndef _MINESWEEPER_SOLVER_RESULT_H_
 #define _MINESWEEPER_SOLVER_RESULT_H_
 
+#include "solver-bipartite.h"
+
 namespace minesweeper {
     namespace solver {
         using namespace minesweeper::core;

@@ -1,7 +1,7 @@
 #ifndef _MINESWEEPER_SOLVER_BIPARTITE_H_
 #define _MINESWEEPER_SOLVER_BIPARTITE_H_
 
-#include "common.h"
+#include "solver.h"
 
 namespace minesweeper {
     namespace solver {

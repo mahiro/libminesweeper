@@ -2,6 +2,18 @@
 
 namespace minesweeper {
     namespace solver {
+        void SolverCell::incrUnknowns() const {
+            if (numUnknowns++ == 0) {
+                dynamic_cast<const SolverField &>(field).addFrontierCell(*this);
+            }
+        }
+        
+        void SolverCell::decrUnknowns() const {
+            if (--numUnknowns == 0) {
+                dynamic_cast<const SolverField &>(field).removeFrontierCell(*this);
+            }
+        }
+
         bool SolverCell::uncover() const {
             if (Cell::uncover()) {
                 if (!hasFlag() && !hasMine()) {

@@ -1,8 +1,8 @@
-#include "searcher.h"
+#include "solver-searcher.h"
 #include "solver-field.h"
 #include "solver-cell.h"
-#include "suspect.h"
-#include "combination.h"
+#include "solver-suspect.h"
+#include "solver-combination.h"
 
 namespace minesweeper {
     namespace solver {

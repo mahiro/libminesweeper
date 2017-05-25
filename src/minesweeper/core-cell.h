@@ -1,7 +1,7 @@
 #ifndef _MINESWEEPER_CORE_CELL_H_
 #define _MINESWEEPER_CORE_CELL_H_
 
-#include "common.h"
+#include "core.h"
 
 namespace minesweeper {
     namespace core {

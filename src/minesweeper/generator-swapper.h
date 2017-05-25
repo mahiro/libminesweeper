@@ -1,8 +1,8 @@
 #ifndef _MINESWEEPER_GENERATOR_SWAPPER_H_
 #define _MINESWEEPER_GENERATOR_SWAPPER_H_
 
-#include "common.h"
-#include "record-state.h"
+#include "generator.h"
+#include "generator-record.h"
 
 #include <cstdlib>
 

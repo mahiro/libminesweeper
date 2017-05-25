@@ -1,7 +1,6 @@
 #include "generator-field.h"
 #include "generator-cell.h"
-
-#include "swapper.h"
+#include "generator-swapper.h"
 
 namespace minesweeper {
     namespace generator {

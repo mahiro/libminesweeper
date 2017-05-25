@@ -1,5 +1,5 @@
-#include "field.h"
-#include "cell.h"
+#include "core-field.h"
+#include "core-cell.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
